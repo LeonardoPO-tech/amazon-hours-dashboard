@@ -1,0 +1,1390 @@
+﻿<!doctype html>
+<html lang='en-US'>
+<head>
+  <meta charset='utf-8' />
+  <meta name='viewport' content='width=device-width, initial-scale=1' />
+  <meta http-equiv='refresh' content='3600' />
+  <title>Worked hours - Ingrid / Amazon</title>
+  <style>
+    :root { color-scheme: dark; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Segoe UI, Arial, sans-serif; background: #07111f; color: #e5eefb; }
+    .page { padding: 18px; }
+    .hero { background: linear-gradient(180deg, #0a1324 0%, #0c1629 100%); border: 1px solid #243149; border-radius: 14px; padding: 20px 22px; box-shadow: 0 8px 24px rgba(0,0,0,.24); }
+    .hero h1 { margin: 0 0 8px; font-size: 30px; font-weight: 700; }
+    .subtitle { color: #9fb2d1; font-size: 14px; }
+    .subtitle strong { color: #f5b23a; }
+    .toolbar { margin-top: 14px; display: flex; gap: 10px; flex-wrap: wrap; }
+    .toolbar a, .toolbar button { color: #d9e6fb; text-decoration: none; border: 1px solid #30415f; padding: 9px 12px; border-radius: 10px; background: rgba(255,255,255,.03); font: inherit; cursor: pointer; }
+    .toolbar a.primary { background: #ffb020; border-color: #ffb020; color: #07111f; font-weight: 700; }
+    .toolbar button.primary { background: #ffb020; border-color: #ffb020; color: #07111f; font-weight: 700; }
+    .lang-switch { margin-left: auto; display: inline-flex; gap: 8px; }
+    .lang-switch a { min-width: 56px; display: inline-flex; align-items: center; justify-content: center; }
+    .lang-switch a.active { box-shadow: inset 0 0 0 1px rgba(255,255,255,.22); }
+    .hero-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 14px; margin-top: 14px; }
+    .focus-panel, .hero-side { background: #0b1526; border: 1px solid #27324a; border-radius: 14px; overflow: hidden; }
+    .panel-head { padding: 14px 16px; border-bottom: 1px solid #27324a; background: rgba(255,255,255,.02); display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+    .panel-head h2 { margin: 0; font-size: 15px; }
+    .panel-head span { color: #9fb2d1; font-size: 12px; }
+    .focus-stack { padding: 14px; display: grid; gap: 10px; }
+    .focus-card { border: 1px solid #30415f; border-radius: 14px; padding: 14px; background: linear-gradient(180deg, #132544 0%, #0c1526 100%); }
+    .focus-card__top { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .focus-badge { display: inline-flex; align-items: center; padding: 5px 10px; border-radius: 999px; background: rgba(31,142,241,.16); color: #7ec0ff; font-size: 11px; font-weight: 700; }
+    .focus-hours { font-size: 20px; font-weight: 800; color: #ffb020; }
+    .focus-card__title { font-size: 15px; font-weight: 700; line-height: 1.4; margin-bottom: 8px; }
+    .focus-card__meta { color: #9fb2d1; font-size: 12px; line-height: 1.5; }
+    .focus-summary {
+      border: 1px solid #30415f;
+      border-radius: 18px;
+      margin: 0 14px 14px;
+      padding: 18px;
+      background: linear-gradient(180deg, rgba(18,37,68,.92), rgba(11,21,38,.96));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.03);
+    }
+    .focus-summary__header { display: flex; justify-content: space-between; gap: 12px; align-items: center; margin-bottom: 12px; }
+    .focus-summary__label { color: #9fb2d1; font-size: 11px; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 4px; text-align: center; }
+    .focus-summary__title { font-size: 15px; font-weight: 800; line-height: 1.35; }
+    .focus-summary__percent {
+      min-width: 74px;
+      text-align: center;
+      font-size: 22px;
+      font-weight: 800;
+      color: #ffb020;
+      padding: 10px 12px;
+      border-radius: 16px;
+      background: rgba(255,176,32,.10);
+      border: 1px solid rgba(255,176,32,.18);
+    }
+    .progress-track { height: 12px; border-radius: 999px; background: #18253a; overflow: hidden; margin-bottom: 14px; box-shadow: inset 0 0 0 1px rgba(255,255,255,.02); }
+    .progress-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, #1f8ef1, #ffb020); }
+    .focus-summary__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; justify-items: stretch; }
+    .focus-summary__box {
+      background: #101d33;
+      border: 1px solid #22324b;
+      border-radius: 14px;
+      padding: 12px 14px;
+      min-height: 78px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+    }
+    .focus-summary__box span { display: block; color: #9fb2d1; font-size: 11px; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 6px; }
+    .focus-summary__box strong { display: block; color: #f4f7fb; font-size: 12px; line-height: 1.45; }
+    .status-grid { padding: 14px; display: grid; gap: 10px; }
+    .status-column { border: 1px solid #27324a; border-radius: 14px; overflow: hidden; background: #0b1526; }
+    .status-column__header { padding: 12px 14px; border-bottom: 1px solid #27324a; display: flex; justify-content: space-between; gap: 10px; align-items: start; }
+    .status-column__title { font-size: 15px; font-weight: 700; }
+    .status-column__desc { color: #9fb2d1; font-size: 12px; margin-top: 4px; }
+    .status-column__count { min-width: 34px; padding: 5px 8px; border-radius: 999px; text-align: center; background: rgba(255,255,255,.06); color: #f4f7fb; font-size: 12px; font-weight: 700; }
+    .status-column__items { padding: 12px; display: grid; gap: 10px; }
+    .status-item { background: #101d33; border: 1px solid #22324b; border-radius: 12px; padding: 11px 12px; }
+    .status-item__head { display: flex; justify-content: space-between; gap: 10px; align-items: center; margin-bottom: 8px; }
+    .status-item__head strong { color: #ffb020; }
+    .status-mini { color: #9fb2d1; font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+    .status-item__title { font-size: 13px; font-weight: 700; line-height: 1.4; margin-bottom: 6px; }
+    .status-item__meta { color: #9fb2d1; font-size: 12px; line-height: 1.4; }
+    .status-column.focus .status-column__count { background: rgba(31,142,241,.16); color: #7ec0ff; }
+    .status-column.queue .status-column__count { background: rgba(154,164,178,.16); color: #c4cedd; }
+    .status-column.done .status-column__count { background: rgba(45,181,93,.16); color: #71d58e; }
+    .empty-state { color: #9fb2d1; font-size: 12px; padding: 12px; text-align: center; border: 1px dashed #31425f; border-radius: 12px; }
+    .kpi-wrap { margin-top: 14px; display: grid; gap: 12px; }
+    .kpi-top { display: grid; grid-template-columns: 1.4fr 1fr; gap: 12px; }
+    .kpi-main, .kpi-side { background: #0d1a30; border: 1px solid #27324a; border-radius: 16px; overflow: hidden; }
+    .kpi-main { padding: 18px; min-height: 138px; display: flex; flex-direction: column; justify-content: center; }
+    .kpi-main .label { text-transform: uppercase; letter-spacing: .08em; color: #8ea3c5; font-size: 11px; margin-bottom: 10px; text-align: center; }
+    .kpi-main .value { font-size: 34px; font-weight: 800; color: #ffb020; text-align: center; line-height: 1.05; }
+    .kpi-main .sub { margin-top: 8px; color: #9fb2d1; font-size: 12px; text-align: center; }
+    .kpi-side { padding: 18px; min-height: 138px; display: flex; flex-direction: column; justify-content: center; }
+    .kpi-side .label { text-transform: uppercase; letter-spacing: .08em; color: #8ea3c5; font-size: 11px; margin-bottom: 10px; text-align: center; }
+    .kpi-side .value { font-size: 30px; font-weight: 800; color: #f4f7fb; text-align: center; line-height: 1.05; }
+    .kpi-side .sub { margin-top: 8px; color: #9fb2d1; font-size: 12px; text-align: center; }
+    .kpi-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+    .kpi-chip { background: #0d1a30; border: 1px solid #27324a; border-radius: 14px; padding: 14px 12px; min-height: 104px; display: flex; flex-direction: column; justify-content: center; text-align: center; }
+    .kpi-chip .label { text-transform: uppercase; letter-spacing: .08em; color: #8ea3c5; font-size: 10px; margin-bottom: 8px; }
+    .kpi-chip .value { font-size: 22px; font-weight: 800; color: #f4f7fb; line-height: 1.08; }
+    .kpi-chip.accent .value { color: #7ec0ff; }
+    .kpi-chip.goal .value { color: #71d58e; }
+    .legend { display: flex; gap: 16px; align-items: center; color: #9fb2d1; font-size: 13px; margin: 14px 0 10px; }
+    .dot { width: 9px; height: 9px; border-radius: 999px; display: inline-block; margin-right: 6px; }
+    .state { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; }
+    .state.done { background: rgba(45,181,93,.15); color: #71d58e; }
+    .state.progress { background: rgba(31,142,241,.15); color: #7ec0ff; }
+    .state.todo { background: rgba(154,164,178,.14); color: #c4cedd; }
+    .table-card { margin-top: 0; background: #0b1526; border: 1px solid #27324a; border-radius: 14px; overflow: hidden; }
+    table { width: 100%; border-collapse: collapse; }
+    thead th { position: sticky; top: 0; z-index: 2; background: #111d33; color: #a8bad9; text-align: left; font-size: 12px; padding: 14px 12px; border-bottom: 1px solid #27324a; }
+    tbody td { padding: 13px 12px; border-bottom: 1px solid #1f2c43; vertical-align: middle; font-size: 14px; }
+    tbody tr:hover { background: #173555; }
+    .hours { font-variant-numeric: tabular-nums; font-weight: 700; color: #ffd166; }
+    .note { margin-top: 12px; color: #8ea3c5; font-size: 12px; }
+    @media (max-width: 1300px) { .hero-grid { grid-template-columns: 1fr; } .kpi-top { grid-template-columns: 1fr; } .kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 900px) { .kpi-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class='page'>
+    <section class='hero'>
+      <h1 id='page-title' data-i18n='page_title'>Worked hours - Ingrid / Amazon</h1>
+      <div class='subtitle' id='subtitle-line' data-created-date='04/09/2026' data-changed-date='14/10/2026 15:07' data-i18n='subtitle'>
+        Tasks <strong>created from 09/04/2026</strong> and <strong>assigned to Ingrid Vieira Alves</strong> - client resolved by PBI/Task - last update at <strong>14/10/2026 15:07</strong>
+      </div>
+      <div class='toolbar'>
+        <a class='primary' id='download-link' href='#' download='amazon-hours-dashboard.html' data-i18n='download_html'>Download HTML</a>
+        <button class='primary' id='refresh-button' type='button' data-i18n='refresh_now'>Refresh now</button>
+        <a href='#tabela' id='open-table-link' data-i18n='open_table'>Open table</a>
+        <a href='#foco' id='focus-link' data-i18n='view_focus'>View current focus</a>
+        <div class='lang-switch' aria-label='Language switch'>
+          <a class='primary active' id='lang-pt' data-lang='pt' href='/'>PT</a>
+          <a id='lang-en' data-lang='en' href='/en.html'>EN</a>
+        </div>
+      </div>
+      <div class='hero-grid'>
+        <div class='focus-panel' id='foco'>
+          <div class='panel-head'>
+            <h2 id='focus-panel-title' data-i18n='focus_panel_title'>What she is working on now</h2>
+            <span id='focus-panel-count'>1 tarefa(s) ativas</span>
+          </div>
+          <div class='focus-summary'>
+  <div class='focus-summary__header'>
+    <div>
+      <div class='focus-summary__label' data-i18n='current_task_summary'>Current task summary</div>
+      <div class='focus-summary__title'>Implementar classes para as novas tabelas</div>
+    </div>
+    <div class='focus-summary__percent'>30.0%</div>
+  </div>
+  <div class='progress-track'>
+    <div class='progress-fill' style='width: 30.0%'></div>
+  </div>
+  <div class='focus-summary__grid'>
+    <div class='focus-summary__box'>
+      <span data-i18n='state_graph'>State Graph</span>
+      <strong>To Do 14:17 | In Progress 13:23</strong>
+    </div>
+    <div class='focus-summary__box'>
+      <span data-i18n='pbi_label'>PBI</span>
+      <strong>#77125 - Desenvolver o servi&#231;o de envio de viagens para Demarco e Argus</strong>
+    </div>
+    <div class='focus-summary__box'>
+      <span data-i18n='epic_label'>Epic</span>
+      <strong>#77122 - Amazon - Integra&#231;&#245;es Demarco e Argus - Frota Legal</strong>
+    </div>
+    <div class='focus-summary__box'>
+      <span data-i18n='progress_label'>Progress</span>
+      <strong>1.5h / 5.0h</strong>
+    </div>
+  </div>
+</div>
+          <div class='focus-stack'>
+            <article class='focus-card'>
+  <div class='focus-card__top'>
+    <span class='focus-badge' data-i18n='badge_in_progress'>Em andamento</span>
+    <span class='focus-hours'>3.5h</span>
+  </div>
+  <div class='focus-card__title'>Implementar classes para as novas tabelas</div>
+  <div class='focus-card__meta'>#79697 &bull; <span data-i18n='item_type'>Task</span> &bull; <span data-i18n='state_graph'>State Graph</span>: To Do 14:17 | In Progress 13:23</div>
+  <div class='focus-card__meta'><span data-i18n='pbi_label'>PBI</span>: #77125 - Desenvolver o servi&#231;o de envio de viagens para Demarco e Argus (PBI)</div>
+  <div class='focus-card__meta'><span data-i18n='epic_label'>Epic</span>: #77122 - Amazon - Integra&#231;&#245;es Demarco e Argus - Frota Legal</div>
+  <div class='focus-card__meta'><span data-i18n='remaining_work'>Remaining Work</span>: 3.5h &bull; <span data-i18n='completed_work'>Completed Work</span>: 1.5h</div>
+</article>
+          </div>
+        </div>
+        <div class='hero-side'>
+          <div class='panel-head'>
+            <h2 id='rapid-reading-title' data-i18n='rapid_reading'>Quick view</h2>
+            <span id='rapid-reading-subtitle' data-i18n='focus_by_status'>Focus by status</span>
+          </div>
+          <div class='status-grid'>
+            <div class='kpi-wrap'>
+              <div class='kpi-top'>
+                <div class='kpi-main'>
+                  <div class='label' data-i18n='hours_spent_label'>Hours spent so far</div>
+                  <div class='value'>233.8</div>
+                  <div class='sub' data-i18n='hours_spent_sub'>Updated with the latest Azure DevOps extract</div>
+                </div>
+                <div class='kpi-side'>
+                  <div class='label' data-i18n='october_goal_label'>October goal</div>
+                  <div class='value'>157.5</div>
+                  <div class='sub' data-i18n='monthly_reference'>Monthly reference of 157.5 hours</div>
+                </div>
+              </div>
+              <div class='kpi-grid'>
+                <div class='kpi-chip accent'><div class='label' data-i18n='predominant_client'>Predominant client</div><div class='value'>Amazon</div></div>
+                <div class='kpi-chip'><div class='label' data-i18n='filtered_items'>Filtered items</div><div class='value'>62</div></div>
+                <div class='kpi-chip goal'><div class='label' data-i18n='sprint_hours_october'>October sprint hours</div><div class='value'>67.0</div></div>
+                <div class='kpi-chip'><div class='label' data-i18n='name_label'>Name</div><div class='value'>Ingrid Vieira Alves</div></div>
+              </div>
+            </div>
+            <div class='legend' style='margin:0; flex-wrap: wrap; gap: 10px; padding-top: 4px;'>
+              <span><i class='dot' style='background:#2db55d'></i><span data-i18n='legend_done'>Done</span></span>
+              <span><i class='dot' style='background:#1f8ef1'></i><span data-i18n='legend_in_progress'>In Progress</span></span>
+              <span><i class='dot' style='background:#9aa4b2'></i><span data-i18n='legend_new'>New</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class='table-card' style='margin-top:14px; border: 0; background: transparent;'>
+      <div class='hero-grid' style='margin-top:0'>
+        <section class='status-column focus'>
+  <div class='status-column__header'>
+    <div>
+      <div class='status-column__title' data-i18n='status_focus_title'>Working now</div>
+      <div class='status-column__desc' data-i18n='status_focus_desc'>Items with active work or recent review</div>
+    </div>
+    <div class='status-column__count'>1</div>
+  </div>
+  <div class='status-column__items'>
+    <div class='status-item'>
+  <div class='status-item__head'>
+    <strong>79697</strong>
+    <span class='status-mini' data-i18n='state_now'>Now</span>
+  </div>
+  <div class='status-item__title'>Implementar classes para as novas tabelas</div>
+  <div class='status-item__meta'><span data-i18n='item_type'>Task</span> &bull; <span data-i18n='state_graph'>State Graph</span>: To Do 14:17 | In Progress 13:23</div>
+  <div class='status-item__meta'><span data-i18n='pbi_label'>PBI</span>: #77125 - Desenvolver o servi&#231;o de envio de viagens para Demarco e Argus (PBI)</div>
+  <div class='status-item__meta'><span data-i18n='epic_label'>Epic</span>: #77122 - Amazon - Integra&#231;&#245;es Demarco e Argus - Frota Legal</div>
+  <div class='status-item__meta'><span data-i18n='completed_work'>Completed Work</span>: 1.5h &bull; <span data-i18n='remaining_work'>Remaining Work</span>: 3.5h</div>
+</div>
+  </div>
+</section>
+<section class='status-column queue'>
+  <div class='status-column__header'>
+    <div>
+      <div class='status-column__title' data-i18n='status_queue_title'>Waiting / queue</div>
+      <div class='status-column__desc' data-i18n='status_queue_desc'>Items that have not entered execution yet</div>
+    </div>
+    <div class='status-column__count'>10</div>
+  </div>
+  <div class='status-column__items'>
+    <div class='status-item'>
+  <div class='status-item__head'>
+    <strong>79720</strong>
+    <span class='status-mini' data-i18n='state_queue'>Queue</span>
+  </div>
+  <div class='status-item__title'>Implementar m&#233;todo de consulta das valida&#231;&#245;es dos prestadores</div>
+  <div class='status-item__meta'><span data-i18n='item_type'>Task</span> &bull; <span data-i18n='state_graph'>State Graph</span>: To Do 14:53</div>
+  <div class='status-item__meta'><span data-i18n='pbi_label'>PBI</span>: #79590 - Enviar altera&#231;&#245;es de placa e motorista pelo BR2 e disponibilizar hist&#243;rico (PBI)</div>
+  <div class='status-item__meta'><span data-i18n='epic_label'>Epic</span>: #77122 - Amazon - Integra&#231;&#245;es Demarco e Argus - Frota Legal</div>
+  <div class='status-item__meta'><span data-i18n='completed_work'>Completed Work</span>: 0.0h &bull; <span data-i18n='remaining_work'>Remaining Work</span>: 6.0h</div>
+</div> <div class='status-item'>
+  <div class='status-item__head'>
+    <strong>79719</strong>
+    <span class='status-mini' data-i18n='state_queue'>Queue</span>
+  </div>
+  <div class='status-item__title'>Implementar chamada da consulta das valida&#231;&#245;es dos prestadores para Ve&#237;culos</div>
+  <div class='status-item__meta'><span data-i18n='item_type'>Task</span> &bull; <span data-i18n='state_graph'>State Graph</span>: To Do 14:48</div>
+  <div class='status-item__meta'><span data-i18n='pbi_label'>PBI</span>: #79590 - Enviar altera&#231;&#245;es de placa e motorista pelo BR2 e disponibilizar hist&#243;rico (PBI)</div>
+  <div class='status-item__meta'><span data-i18n='epic_label'>Epic</span>: #77122 - Amazon - Integra&#231;&#245;es Demarco e Argus - Frota Legal</div>
+  <div class='status-item__meta'><span data-i18n='completed_work'>Completed Work</span>: 0.0h &bull; <span data-i18n='remaining_work'>Remaining Work</span>: 6.0h</div>
+</div> <div class='status-item'>
+  <div class='status-item__head'>
+    <strong>79718</strong>
+    <span class='status-mini' data-i18n='state_queue'>Queue</span>
+  </div>
+  <div class='status-item__title'>Implementar chamada da consulta das valida&#231;&#245;es dos prestadores para Motorista</div>
+  <div class='status-item__meta'><span data-i18n='item_type'>Task</span> &bull; <span data-i18n='state_graph'>State Graph</span>: To Do 14:47</div>
+  <div class='status-item__meta'><span data-i18n='pbi_label'>PBI</span>: #79590 - Enviar altera&#231;&#245;es de placa e motorista pelo BR2 e disponibilizar hist&#243;rico (PBI)</div>
+  <div class='status-item__meta'><span data-i18n='epic_label'>Epic</span>: #77122 - Amazon - Integra&#231;&#245;es Demarco e Argus - Frota Legal</div>
+  <div class='status-item__meta'><span data-i18n='completed_work'>Completed Work</span>: 0.0h &bull; <span data-i18n='remaining_work'>Remaining Work</span>: 6.0h</div>
+</div> <div class='status-item'>
+  <div class='status-item__head'>
+    <strong>79717</strong>
+    <span class='status-mini' data-i18n='state_queue'>Queue</span>
+  </div>
+  <div class='status-item__title'>Analisar funcionalidades de troca de motorista</div>
+  <div class='status-item__meta'><span data-i18n='item_type'>Task</span> &bull; <span data-i18n='state_graph'>State Graph</span>: To Do 14:45</div>
+  <div class='status-item__meta'><span data-i18n='pbi_label'>PBI</span>: #79590 - Enviar altera&#231;&#245;es de placa e motorista pelo BR2 e disponibilizar hist&#243;rico (PBI)</div>
+  <div class='status-item__meta'><span data-i18n='epic_label'>Epic</span>: #77122 - Amazon - Integra&#231;&#245;es Demarco e Argus - Frota Legal</div>
+  <div class='status-item__meta'><span data-i18n='completed_work'>Completed Work</span>: 0.0h &bull; <span data-i18n='remaining_work'>Remaining Work</span>: 6.0h</div>
+</div> <div class='status-item'>
+  <div class='status-item__head'>
+    <strong>79715</strong>
+    <span class='status-mini' data-i18n='state_queue'>Queue</span>
+  </div>
+  <div class='status-item__title'>Validar e evidenciar</div>
+  <div class='status-item__meta'><span data-i18n='item_type'>Task</span> &bull; <span data-i18n='state_graph'>State Graph</span>: To Do 14:32</div>
+  <div class='status-item__meta'><span data-i18n='pbi_label'>PBI</span>: #79589 - Apresentar as valida&#231;&#245;es da Demarco nas telas de motorista e ve&#237;culo do BR2 (PBI)</div>
+  <div class='status-item__meta'><span data-i18n='epic_label'>Epic</span>: #77122 - Amazon - Integra&#231;&#245;es Demarco e Argus - Frota Legal</div>
+  <div class='status-item__meta'><span data-i18n='completed_work'>Completed Work</span>: 0.0h &bull; <span data-i18n='remaining_work'>Remaining Work</span>: 1.0h</div>
+</div>
+  </div>
+</section>
+<section class='status-column done'>
+  <div class='status-column__header'>
+    <div>
+      <div class='status-column__title' data-i18n='status_done_title'>Completed</div>
+      <div class='status-column__desc' data-i18n='status_done_desc'>Items finished in the selected period</div>
+    </div>
+    <div class='status-column__count'>51</div>
+  </div>
+  <div class='status-column__items'>
+    <div class='status-item'>
+  <div class='status-item__head'>
+    <strong>80271</strong>
+    <span class='status-mini' data-i18n='state_done'>Done</span>
+  </div>
+  <div class='status-item__title'>Servi&#231;o Alerta - Implementar novo alerta Valida&#231;&#227;o dos prestadores alerta Ve&#237;culo</div>
+  <div class='status-item__meta'><span data-i18n='item_type'>Task</span> &bull; <span data-i18n='state_graph'>State Graph</span>: To Do 08:36 | In Progress 09:10 | Done 14:10</div>
+  <div class='status-item__meta'><span data-i18n='pbi_label'>PBI</span>: #77131 - Implementar alertas impeditivos de motorista e ve&#237;culo no BRLOG (PBI)</div>
+  <div class='status-item__meta'><span data-i18n='epic_label'>Epic</span>: #77122 - Amazon - Integra&#231;&#245;es Demarco e Argus - Frota Legal</div>
+  <div class='status-item__meta'><span data-i18n='completed_work'>Completed Work</span>: 5.0h &bull; <span data-i18n='remaining_work'>Remaining Work</span>: 0.0h</div>
+</div> <div class='status-item'>
+  <div class='status-item__head'>
+    <strong>80083</strong>
+    <span class='status-mini' data-i18n='state_done'>Done</span>
+  </div>
+  <div class='status-item__title'>Validar e evidenciar</div>
+  <div class='status-item__meta'><span data-i18n='item_type'>Task</span> &bull; <span data-i18n='state_graph'>State Graph</span>: To Do 18:03 | In Progress 17:00 | To Do 17:59 | In Progress 08:57 | Done 12:16</div>
+  <div class='status-item__meta'><span data-i18n='pbi_label'>PBI</span>: #79588 - Adequar o BRLOG para in&#237;cio da viagem e hist&#243;rico Demarco e Argus (PBI)</div>
+  <div class='status-item__meta'><span data-i18n='epic_label'>Epic</span>: #77122 - Amazon - Integra&#231;&#245;es Demarco e Argus - Frota Legal</div>
+  <div class='status-item__meta'><span data-i18n='completed_work'>Completed Work</span>: 3.0h &bull; <span data-i18n='remaining_work'>Remaining Work</span>: 0.0h</div>
+</div> <div class='status-item'>
+  <div class='status-item__head'>
+    <strong>79978</strong>
+    <span class='status-mini' data-i18n='state_done'>Done</span>
+  </div>
+  <div class='status-item__title'>Implementa&#231;&#227;o e revis&#227;o do relat&#243;rio Master</div>
+  <div class='status-item__meta'><span data-i18n='item_type'>Task</span> &bull; <span data-i18n='state_graph'>State Graph</span>: To Do 08:37 | In Progress 08:58 | Done 16:59</div>
+  <div class='status-item__meta'><span data-i18n='pbi_label'>PBI</span>: #79976 - Revis&#227;o do desenvolvimento - Nova subida (PBI)</div>
+  <div class='status-item__meta'><span data-i18n='epic_label'>Epic</span>: #77035 - Amazon | Evolu&#231;&#227;o do Relat&#243;rio Master BRLog</div>
+  <div class='status-item__meta'><span data-i18n='completed_work'>Completed Work</span>: 6.0h &bull; <span data-i18n='remaining_work'>Remaining Work</span>: 0.0h</div>
+</div> <div class='status-item'>
+  <div class='status-item__head'>
+    <strong>79977</strong>
+    <span class='status-mini' data-i18n='state_done'>Done</span>
+  </div>
+  <div class='status-item__title'>Ajustes no m&#233;todo de aceite programa&#231;&#227;o</div>
+  <div class='status-item__meta'><span data-i18n='item_type'>Task</span> &bull; <span data-i18n='state_graph'>State Graph</span>: To Do 18:22 | In Progress 09:00 | To Do 11:42 | In Progress 13:40 | Done 18:02</div>
+  <div class='status-item__meta'><span data-i18n='pbi_label'>PBI</span>: #79588 - Adequar o BRLOG para in&#237;cio da viagem e hist&#243;rico Demarco e Argus (PBI)</div>
+  <div class='status-item__meta'><span data-i18n='epic_label'>Epic</span>: #77122 - Amazon - Integra&#231;&#245;es Demarco e Argus - Frota Legal</div>
+  <div class='status-item__meta'><span data-i18n='completed_work'>Completed Work</span>: 7.5h &bull; <span data-i18n='remaining_work'>Remaining Work</span>: 0.0h</div>
+</div> <div class='status-item'>
+  <div class='status-item__head'>
+    <strong>79972</strong>
+    <span class='status-mini' data-i18n='state_done'>Done</span>
+  </div>
+  <div class='status-item__title'>Ajuste na consulta do relat&#243;rio de Certifica&#231;&#227;o de dire&#231;&#227;o defensiva</div>
+  <div class='status-item__meta'><span data-i18n='item_type'>Task</span> &bull; <span data-i18n='state_graph'>State Graph</span>: To Do 14:56 | In Progress 14:56 | Done 15:00</div>
+  <div class='status-item__meta'><span data-i18n='pbi_label'>PBI</span>: #79971 - Ajustar relat&#243;rio de dire&#231;&#227;o defensiva (PBI)</div>
+  <div class='status-item__meta'><span data-i18n='epic_label'>Epic</span>: #77122 - Amazon - Integra&#231;&#245;es Demarco e Argus - Frota Legal</div>
+  <div class='status-item__meta'><span data-i18n='completed_work'>Completed Work</span>: 1.0h &bull; <span data-i18n='remaining_work'>Remaining Work</span>: 0.0h</div>
+</div>
+  </div>
+</section>
+      </div>
+    </section>
+
+    <section class='table-card' id='tabela'>
+      <table>
+        <thead>
+          <tr>
+            <th style='width:8%' data-i18n='table_id'>ID</th>
+            <th style='width:36%' data-i18n='table_activity'>Atividade</th>
+            <th style='width:12%' data-i18n='table_client'>Cliente</th>
+            <th style='width:8%' data-i18n='table_ats'>ATS</th>
+            <th style='width:10%' data-i18n='table_state'>State</th>
+            <th style='width:8%' data-i18n='completed_work'>Completed Work</th>
+            <th style='width:8%' data-i18n='remaining_work'>Remaining Work</th>
+            <th style='width:8%' data-i18n='table_effort'>Effort</th>
+            <th style='width:8%' data-i18n='table_hours_spent'>Hours spent</th>
+            <th style='width:7%' data-i18n='table_created_at'>Created at</th>
+            <th style='width:7%' data-i18n='table_changed_at'>Changed at</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+  <td><strong>79697</strong></td>
+  <td>Implementar classes para as novas tabelas</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state progress'>In Progress</span></td>
+  <td class='hours'>1.5</td>
+  <td class='hours'>3.5</td>
+  <td class='hours'>5.0</td>
+  <td class='hours'></td>
+  <td>23/09/2026 14:17</td>
+  <td>14/10/2026 15:07</td>
+</tr>
+<tr>
+  <td><strong>79720</strong></td>
+  <td>Implementar m&#233;todo de consulta das valida&#231;&#245;es dos prestadores</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state todo'>To Do</span></td>
+  <td class='hours'></td>
+  <td class='hours'>6.0</td>
+  <td class='hours'>6.0</td>
+  <td class='hours'></td>
+  <td>23/09/2026 14:53</td>
+  <td>28/09/2026 14:41</td>
+</tr>
+<tr>
+  <td><strong>79719</strong></td>
+  <td>Implementar chamada da consulta das valida&#231;&#245;es dos prestadores para Ve&#237;culos</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state todo'>To Do</span></td>
+  <td class='hours'></td>
+  <td class='hours'>6.0</td>
+  <td class='hours'>6.0</td>
+  <td class='hours'></td>
+  <td>23/09/2026 14:48</td>
+  <td>28/09/2026 14:41</td>
+</tr>
+<tr>
+  <td><strong>79718</strong></td>
+  <td>Implementar chamada da consulta das valida&#231;&#245;es dos prestadores para Motorista</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state todo'>To Do</span></td>
+  <td class='hours'></td>
+  <td class='hours'>6.0</td>
+  <td class='hours'>6.0</td>
+  <td class='hours'></td>
+  <td>23/09/2026 14:47</td>
+  <td>28/09/2026 14:41</td>
+</tr>
+<tr>
+  <td><strong>79717</strong></td>
+  <td>Analisar funcionalidades de troca de motorista</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state todo'>To Do</span></td>
+  <td class='hours'></td>
+  <td class='hours'>6.0</td>
+  <td class='hours'>6.0</td>
+  <td class='hours'></td>
+  <td>23/09/2026 14:45</td>
+  <td>28/09/2026 14:41</td>
+</tr>
+<tr>
+  <td><strong>79715</strong></td>
+  <td>Validar e evidenciar</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state todo'>To Do</span></td>
+  <td class='hours'></td>
+  <td class='hours'>1.0</td>
+  <td class='hours'>1.0</td>
+  <td class='hours'></td>
+  <td>23/09/2026 14:32</td>
+  <td>28/09/2026 14:41</td>
+</tr>
+<tr>
+  <td><strong>79714</strong></td>
+  <td>Analisar e implementar a funcionalidade de exibi&#231;&#245;es de status Ve&#237;culo</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state todo'>To Do</span></td>
+  <td class='hours'></td>
+  <td class='hours'>6.0</td>
+  <td class='hours'>6.0</td>
+  <td class='hours'></td>
+  <td>23/09/2026 14:32</td>
+  <td>28/09/2026 14:42</td>
+</tr>
+<tr>
+  <td><strong>79713</strong></td>
+  <td>Analisar e implementar a funcionalidade de exibi&#231;&#245;es de status Motorista</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state todo'>To Do</span></td>
+  <td class='hours'></td>
+  <td class='hours'>6.0</td>
+  <td class='hours'>6.0</td>
+  <td class='hours'></td>
+  <td>23/09/2026 14:31</td>
+  <td>28/09/2026 14:42</td>
+</tr>
+<tr>
+  <td><strong>79701</strong></td>
+  <td>Valida&#231;&#245;es e evid&#234;ncias</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state todo'>To Do</span></td>
+  <td class='hours'></td>
+  <td class='hours'>3.0</td>
+  <td class='hours'>3.0</td>
+  <td class='hours'></td>
+  <td>23/09/2026 14:20</td>
+  <td>08/10/2026 10:11</td>
+</tr>
+<tr>
+  <td><strong>79700</strong></td>
+  <td>Implementar payload de retorno da consulta</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state todo'>To Do</span></td>
+  <td class='hours'></td>
+  <td class='hours'>6.0</td>
+  <td class='hours'>6.0</td>
+  <td class='hours'></td>
+  <td>23/09/2026 14:19</td>
+  <td>08/10/2026 10:11</td>
+</tr>
+<tr>
+  <td><strong>79699</strong></td>
+  <td>Implementar funcionalidade de consulta das viagens</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state todo'>To Do</span></td>
+  <td class='hours'></td>
+  <td class='hours'>6.0</td>
+  <td class='hours'>6.0</td>
+  <td class='hours'></td>
+  <td>23/09/2026 14:18</td>
+  <td>08/10/2026 10:11</td>
+</tr>
+<tr>
+  <td><strong>80271</strong></td>
+  <td>Servi&#231;o Alerta - Implementar novo alerta Valida&#231;&#227;o dos prestadores alerta Ve&#237;culo</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state done'>Done</span></td>
+  <td class='hours'>5.0</td>
+  <td class='hours'></td>
+  <td class='hours'>4.0</td>
+  <td class='hours'>5.0</td>
+  <td>13/10/2026 08:36</td>
+  <td>13/10/2026 14:10</td>
+</tr>
+<tr>
+  <td><strong>80083</strong></td>
+  <td>Validar e evidenciar</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state done'>Done</span></td>
+  <td class='hours'>3.0</td>
+  <td class='hours'></td>
+  <td class='hours'>3.0</td>
+  <td class='hours'>3.0</td>
+  <td>05/10/2026 18:03</td>
+  <td>07/10/2026 12:16</td>
+</tr>
+<tr>
+  <td><strong>79978</strong></td>
+  <td>Implementa&#231;&#227;o e revis&#227;o do relat&#243;rio Master</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state done'>Done</span></td>
+  <td class='hours'>6.0</td>
+  <td class='hours'></td>
+  <td class='hours'>6.0</td>
+  <td class='hours'>6.0</td>
+  <td>02/10/2026 08:37</td>
+  <td>02/10/2026 16:59</td>
+</tr>
+<tr>
+  <td><strong>79977</strong></td>
+  <td>Ajustes no m&#233;todo de aceite programa&#231;&#227;o</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state done'>Done</span></td>
+  <td class='hours'>7.5</td>
+  <td class='hours'></td>
+  <td class='hours'>6.0</td>
+  <td class='hours'>7.5</td>
+  <td>01/10/2026 18:22</td>
+  <td>08/10/2026 11:22</td>
+</tr>
+<tr>
+  <td><strong>79972</strong></td>
+  <td>Ajuste na consulta do relat&#243;rio de Certifica&#231;&#227;o de dire&#231;&#227;o defensiva</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state done'>Done</span></td>
+  <td class='hours'>1.0</td>
+  <td class='hours'></td>
+  <td class='hours'>1.0</td>
+  <td class='hours'>1.0</td>
+  <td>01/10/2026 14:56</td>
+  <td>01/10/2026 15:00</td>
+</tr>
+<tr>
+  <td><strong>79875</strong></td>
+  <td>Implementar log LogValidacaoPrestadorAmazon</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state done'>Done</span></td>
+  <td class='hours'>6.0</td>
+  <td class='hours'></td>
+  <td class='hours'>5.0</td>
+  <td class='hours'>6.0</td>
+  <td>29/09/2026 16:55</td>
+  <td>06/10/2026 14:00</td>
+</tr>
+<tr>
+  <td><strong>79842</strong></td>
+  <td>Ajustes e valida&#231;&#245;es no m&#233;todo motorista e ve&#237;culo - parte II</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state done'>Done</span></td>
+  <td class='hours'>6.0</td>
+  <td class='hours'></td>
+  <td class='hours'>6.0</td>
+  <td class='hours'>6.0</td>
+  <td>29/09/2026 09:08</td>
+  <td>06/10/2026 14:00</td>
+</tr>
+<tr>
+  <td><strong>79805</strong></td>
+  <td>Ajustes e valida&#231;&#245;es no m&#233;todo motorista e ve&#237;culo</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state done'>Done</span></td>
+  <td class='hours'>8.0</td>
+  <td class='hours'></td>
+  <td class='hours'>6.0</td>
+  <td class='hours'>8.0</td>
+  <td>28/09/2026 09:25</td>
+  <td>06/10/2026 14:00</td>
+</tr>
+<tr>
+  <td><strong>79748</strong></td>
+  <td>Analise de viagens finalizadas sendo processadas no SGR</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state done'>Done</span></td>
+  <td class='hours'>1.0</td>
+  <td class='hours'></td>
+  <td class='hours'>3.0</td>
+  <td class='hours'>1.0</td>
+  <td>24/09/2026 15:12</td>
+  <td>06/10/2026 14:00</td>
+</tr>
+<tr>
+  <td><strong>79711</strong></td>
+  <td>Validar e evidenciar</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state done'>Done</span></td>
+  <td class='hours'>1.0</td>
+  <td class='hours'></td>
+  <td class='hours'>1.0</td>
+  <td class='hours'>1.0</td>
+  <td>23/09/2026 14:30</td>
+  <td>13/10/2026 18:10</td>
+</tr>
+<tr>
+  <td><strong>79710</strong></td>
+  <td>Habilitar novo alerta no BRLog</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state done'>Done</span></td>
+  <td class='hours'>3.0</td>
+  <td class='hours'></td>
+  <td class='hours'>1.0</td>
+  <td class='hours'>3.0</td>
+  <td>23/09/2026 14:29</td>
+  <td>13/10/2026 17:04</td>
+</tr>
+<tr>
+  <td><strong>79709</strong></td>
+  <td>Servi&#231;o Alerta - Implementar novo alerta Valida&#231;&#227;o dos prestadores alerta Motorista</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state done'>Done</span></td>
+  <td class='hours'>3.0</td>
+  <td class='hours'></td>
+  <td class='hours'>4.0</td>
+  <td class='hours'>3.0</td>
+  <td>23/09/2026 14:29</td>
+  <td>09/10/2026 17:21</td>
+</tr>
+<tr>
+  <td><strong>79708</strong></td>
+  <td>Implementar nova aba em Detalhes de viagens para o Hist&#243;rico das valida&#231;&#245;es</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state done'>Done</span></td>
+  <td class='hours'>7.0</td>
+  <td class='hours'></td>
+  <td class='hours'>6.0</td>
+  <td class='hours'>7.0</td>
+  <td>23/09/2026 14:28</td>
+  <td>08/10/2026 11:22</td>
+</tr>
+<tr>
+  <td><strong>79707</strong></td>
+  <td>Implementar chamada da valida&#231;&#227;o dos prestadora em Upload Aceite em Massa</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state done'>Done</span></td>
+  <td class='hours'>3.5</td>
+  <td class='hours'></td>
+  <td class='hours'>3.0</td>
+  <td class='hours'>3.5</td>
+  <td>23/09/2026 14:26</td>
+  <td>08/10/2026 11:22</td>
+</tr>
+<tr>
+  <td><strong>79706</strong></td>
+  <td>Implementar chamada da valida&#231;&#227;o dos prestadores em Pr&#233;-viagem</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state done'>Done</span></td>
+  <td class='hours'>3.5</td>
+  <td class='hours'></td>
+  <td class='hours'>3.0</td>
+  <td class='hours'>3.5</td>
+  <td>23/09/2026 14:26</td>
+  <td>08/10/2026 11:22</td>
+</tr>
+<tr>
+  <td><strong>79705</strong></td>
+  <td>Implementar regra e valida&#231;&#227;o no m&#233;todo Aceite de viagens</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state done'>Done</span></td>
+  <td class='hours'>7.5</td>
+  <td class='hours'></td>
+  <td class='hours'>6.0</td>
+  <td class='hours'>7.5</td>
+  <td>23/09/2026 14:25</td>
+  <td>08/10/2026 11:22</td>
+</tr>
+<tr>
+  <td><strong>79703</strong></td>
+  <td>Implementar regra do valida&#231;&#227;o dos prestadores no m&#233;todo de Alterar ve&#237;culo e motorista</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state done'>Done</span></td>
+  <td class='hours'>8.0</td>
+  <td class='hours'></td>
+  <td class='hours'>6.0</td>
+  <td class='hours'>8.0</td>
+  <td>23/09/2026 14:23</td>
+  <td>08/10/2026 18:04</td>
+</tr>
+<tr>
+  <td><strong>79702</strong></td>
+  <td>Implementar regra do valida&#231;&#227;o dos prestadores no m&#233;todo de Aceite de viagens</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state done'>Done</span></td>
+  <td class='hours'>5.0</td>
+  <td class='hours'></td>
+  <td class='hours'>6.0</td>
+  <td class='hours'>5.0</td>
+  <td>23/09/2026 14:22</td>
+  <td>08/10/2026 15:40</td>
+</tr>
+<tr>
+  <td><strong>79696</strong></td>
+  <td>Implementar autentica&#231;&#227;o do token</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state done'>Done</span></td>
+  <td class='hours'>3.0</td>
+  <td class='hours'></td>
+  <td class='hours'>3.0</td>
+  <td class='hours'>3.0</td>
+  <td>23/09/2026 14:16</td>
+  <td>14/10/2026 13:23</td>
+</tr>
+<tr>
+  <td><strong>79695</strong></td>
+  <td>Servi&#231;o - Instala&#231;&#227;o do NS FLOW KIT</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state done'>Done</span></td>
+  <td class='hours'>1.0</td>
+  <td class='hours'></td>
+  <td class='hours'>1.0</td>
+  <td class='hours'>1.0</td>
+  <td>23/09/2026 14:15</td>
+  <td>14/10/2026 09:09</td>
+</tr>
+<tr>
+  <td><strong>79692</strong></td>
+  <td>Validar e evidenciar</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state done'>Done</span></td>
+  <td class='hours'>1.0</td>
+  <td class='hours'></td>
+  <td class='hours'>4.0</td>
+  <td class='hours'>1.0</td>
+  <td>23/09/2026 14:09</td>
+  <td>30/09/2026 16:11</td>
+</tr>
+<tr>
+  <td><strong>79691</strong></td>
+  <td>Implementar m&#233;todo Ve&#237;culo para o recebimento das valida&#231;&#245;es</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state done'>Done</span></td>
+  <td class='hours'>7.0</td>
+  <td class='hours'></td>
+  <td class='hours'>5.0</td>
+  <td class='hours'>7.0</td>
+  <td>23/09/2026 14:09</td>
+  <td>25/09/2026 17:13</td>
+</tr>
+<tr>
+  <td><strong>79690</strong></td>
+  <td>Implementar m&#233;todo Motorista para o recebimento de informa&#231;&#245;es</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state done'>Done</span></td>
+  <td class='hours'>2.0</td>
+  <td class='hours'></td>
+  <td class='hours'>5.0</td>
+  <td class='hours'>2.0</td>
+  <td>23/09/2026 14:08</td>
+  <td>24/09/2026 18:01</td>
+</tr>
+<tr>
+  <td><strong>79689</strong></td>
+  <td>Instala&#231;&#227;o do ns flow kit na soluction</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state done'>Done</span></td>
+  <td class='hours'>1.0</td>
+  <td class='hours'></td>
+  <td class='hours'>1.0</td>
+  <td class='hours'>1.0</td>
+  <td>23/09/2026 14:06</td>
+  <td>24/09/2026 17:26</td>
+</tr>
+<tr>
+  <td><strong>79688</strong></td>
+  <td>Backend - Implementar classes para as novas tabelas</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state done'>Done</span></td>
+  <td class='hours'>5.0</td>
+  <td class='hours'></td>
+  <td class='hours'>5.0</td>
+  <td class='hours'>5.0</td>
+  <td>23/09/2026 14:02</td>
+  <td>24/09/2026 17:26</td>
+</tr>
+<tr>
+  <td><strong>79687</strong></td>
+  <td>Implementar autentica&#231;&#227;o de token</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state done'>Done</span></td>
+  <td class='hours'>2.0</td>
+  <td class='hours'></td>
+  <td class='hours'>3.0</td>
+  <td class='hours'>2.0</td>
+  <td>23/09/2026 13:51</td>
+  <td>24/09/2026 17:26</td>
+</tr>
+<tr>
+  <td><strong>79606</strong></td>
+  <td>Documenta&#231;&#227;o do servi&#231;o de envio e API</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state done'>Done</span></td>
+  <td class='hours'>6.0</td>
+  <td class='hours'></td>
+  <td class='hours'>6.0</td>
+  <td class='hours'>6.0</td>
+  <td>21/09/2026 17:44</td>
+  <td>24/09/2026 17:26</td>
+</tr>
+<tr>
+  <td><strong>79587</strong></td>
+  <td>Ajustar relat&#243;rio implementado com novas colunas</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state done'>Done</span></td>
+  <td class='hours'>3.0</td>
+  <td class='hours'></td>
+  <td class='hours'>4.0</td>
+  <td class='hours'>3.0</td>
+  <td>21/09/2026 14:55</td>
+  <td>21/09/2026 17:43</td>
+</tr>
+<tr>
+  <td><strong>79542</strong></td>
+  <td>Extra&#231;&#227;o do relat&#243;rio de rela&#231;&#227;o de transportadoras vinculadas a Amazon</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state done'>Done</span></td>
+  <td class='hours'>3.0</td>
+  <td class='hours'></td>
+  <td class='hours'>2.0</td>
+  <td class='hours'>3.0</td>
+  <td>18/09/2026 11:45</td>
+  <td>18/09/2026 15:10</td>
+</tr>
+<tr>
+  <td><strong>79518</strong></td>
+  <td>Analise de log e posi&#231;&#245;es de viagem Amazon</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state done'>Done</span></td>
+  <td class='hours'>1.0</td>
+  <td class='hours'></td>
+  <td class='hours'>3.0</td>
+  <td class='hours'>1.0</td>
+  <td>17/09/2026 15:57</td>
+  <td>17/09/2026 16:53</td>
+</tr>
+<tr>
+  <td><strong>79513</strong></td>
+  <td>Testes e valida&#231;&#245;es</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state done'>Done</span></td>
+  <td class='hours'>5.0</td>
+  <td class='hours'></td>
+  <td class='hours'>6.0</td>
+  <td class='hours'>5.0</td>
+  <td>17/09/2026 15:02</td>
+  <td>18/09/2026 14:23</td>
+</tr>
+<tr>
+  <td><strong>79512</strong></td>
+  <td>Font-end - Implementa&#231;&#227;o da op&#231;&#227;o do novo relat&#243;rio Dire&#231;&#227;o Defensiva</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state done'>Done</span></td>
+  <td class='hours'>3.0</td>
+  <td class='hours'></td>
+  <td class='hours'>6.0</td>
+  <td class='hours'>3.0</td>
+  <td>17/09/2026 15:00</td>
+  <td>17/09/2026 19:34</td>
+</tr>
+<tr>
+  <td><strong>79240</strong></td>
+  <td>Melhorias na consulta e alterar a o nome na aplica&#231;&#227;o</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state done'>Done</span></td>
+  <td class='hours'>3.0</td>
+  <td class='hours'></td>
+  <td class='hours'>3.0</td>
+  <td class='hours'>3.0</td>
+  <td>16/09/2026 15:57</td>
+  <td>16/09/2026 19:16</td>
+</tr>
+<tr>
+  <td><strong>79232</strong></td>
+  <td>Analise na regra da funcionalidade Temporizador de Viagens</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state done'>Done</span></td>
+  <td class='hours'>0.3</td>
+  <td class='hours'></td>
+  <td class='hours'>2.0</td>
+  <td class='hours'>0.3</td>
+  <td>16/09/2026 13:54</td>
+  <td>24/09/2026 17:26</td>
+</tr>
+<tr>
+  <td><strong>79228</strong></td>
+  <td>Reajuste na documenta&#231;&#227;o da API</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state done'>Done</span></td>
+  <td class='hours'>8.5</td>
+  <td class='hours'></td>
+  <td class='hours'>5.0</td>
+  <td class='hours'>8.5</td>
+  <td>16/09/2026 11:15</td>
+  <td>08/10/2026 11:22</td>
+</tr>
+<tr>
+  <td><strong>79212</strong></td>
+  <td>Ajustes na procedure do relatorio Master</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state done'>Done</span></td>
+  <td class='hours'>2.0</td>
+  <td class='hours'></td>
+  <td class='hours'>3.0</td>
+  <td class='hours'>2.0</td>
+  <td>16/09/2026 08:26</td>
+  <td>16/09/2026 11:41</td>
+</tr>
+<tr>
+  <td><strong>79091</strong></td>
+  <td>Analise de integra&#231;&#227;o Viagem de risco</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state done'>Done</span></td>
+  <td class='hours'>4.0</td>
+  <td class='hours'></td>
+  <td class='hours'>3.0</td>
+  <td class='hours'>4.0</td>
+  <td>14/09/2026 09:00</td>
+  <td>14/09/2026 14:19</td>
+</tr>
+<tr>
+  <td><strong>79049</strong></td>
+  <td>Analise de integra&#231;&#227;o Amazon GPS</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state done'>Done</span></td>
+  <td class='hours'>7.0</td>
+  <td class='hours'></td>
+  <td class='hours'>3.0</td>
+  <td class='hours'>7.0</td>
+  <td>11/09/2026 09:37</td>
+  <td>11/09/2026 16:55</td>
+</tr>
+<tr>
+  <td><strong>78982</strong></td>
+  <td>Documentar API do novo servi&#231;o e o fluxo do Envio e Recebimento</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state done'>Done</span></td>
+  <td class='hours'>7.5</td>
+  <td class='hours'></td>
+  <td class='hours'>6.0</td>
+  <td class='hours'>7.5</td>
+  <td>09/09/2026 10:05</td>
+  <td>08/10/2026 11:22</td>
+</tr>
+<tr>
+  <td><strong>78967</strong></td>
+  <td>Validando as implementa&#231;&#245;es do relat&#243;rio Master</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state done'>Done</span></td>
+  <td class='hours'>2.0</td>
+  <td class='hours'></td>
+  <td class='hours'>1.0</td>
+  <td class='hours'>2.0</td>
+  <td>09/09/2026 09:02</td>
+  <td>08/10/2026 11:21</td>
+</tr>
+<tr>
+  <td><strong>78933</strong></td>
+  <td>Documentar a analise</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state done'>Done</span></td>
+  <td class='hours'>7.5</td>
+  <td class='hours'></td>
+  <td class='hours'>6.0</td>
+  <td class='hours'>7.5</td>
+  <td>08/09/2026 11:14</td>
+  <td>08/10/2026 11:21</td>
+</tr>
+<tr>
+  <td><strong>78843</strong></td>
+  <td>Analise e levantamento t&#233;cnico envio e recebimento de dados</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state done'>Done</span></td>
+  <td class='hours'>10.0</td>
+  <td class='hours'></td>
+  <td class='hours'>8.0</td>
+  <td class='hours'>10.0</td>
+  <td>03/09/2026 15:50</td>
+  <td>24/09/2026 17:26</td>
+</tr>
+<tr>
+  <td><strong>78359</strong></td>
+  <td>Ajuste dos par&#226;metros das mensagens do Validator</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state done'>Done</span></td>
+  <td class='hours'>7.0</td>
+  <td class='hours'></td>
+  <td class='hours'>6.0</td>
+  <td class='hours'>7.0</td>
+  <td>20/08/2026 10:27</td>
+  <td>20/08/2026 18:03</td>
+</tr>
+<tr>
+  <td><strong>78152</strong></td>
+  <td>Analise do Validator</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state done'>Done</span></td>
+  <td class='hours'>3.0</td>
+  <td class='hours'></td>
+  <td class='hours'>6.0</td>
+  <td class='hours'>3.0</td>
+  <td>14/08/2026 10:44</td>
+  <td>14/08/2026 14:04</td>
+</tr>
+<tr>
+  <td><strong>78091</strong></td>
+  <td>Analisar cria&#231;&#227;o de viagem</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state done'>Done</span></td>
+  <td class='hours'>9.0</td>
+  <td class='hours'></td>
+  <td class='hours'>5.0</td>
+  <td class='hours'>9.0</td>
+  <td>12/08/2026 17:44</td>
+  <td>13/08/2026 18:19</td>
+</tr>
+<tr>
+  <td><strong>78090</strong></td>
+  <td>Analise das regras Bloqueio Exclusivo e Perfil Aut&#244;nomo no Aceite em Massa</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state done'>Done</span></td>
+  <td class='hours'>3.0</td>
+  <td class='hours'></td>
+  <td class='hours'>5.0</td>
+  <td class='hours'>3.0</td>
+  <td>12/08/2026 17:43</td>
+  <td>14/08/2026 17:01</td>
+</tr>
+<tr>
+  <td><strong>78051</strong></td>
+  <td>Analise das regras Bloqueio Exclusivo e Perfil Aut&#244;nomo no Aceite em Massa</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state done'>Done</span></td>
+  <td class='hours'>8.0</td>
+  <td class='hours'></td>
+  <td class='hours'>6.0</td>
+  <td class='hours'>8.0</td>
+  <td>11/08/2026 16:57</td>
+  <td>12/08/2026 17:42</td>
+</tr>
+<tr>
+  <td><strong>77912</strong></td>
+  <td>Banco de dados - Melhoria de Performance do relat&#243;rio Master script para o insert no job</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state done'>Done</span></td>
+  <td class='hours'>6.0</td>
+  <td class='hours'></td>
+  <td class='hours'>6.0</td>
+  <td class='hours'>6.0</td>
+  <td>06/08/2026 09:54</td>
+  <td>11/08/2026 16:03</td>
+</tr>
+<tr>
+  <td><strong>77911</strong></td>
+  <td>Banco de dados - Exportar todas as viagens em aberto</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state done'>Done</span></td>
+  <td class='hours'>7.0</td>
+  <td class='hours'></td>
+  <td class='hours'>4.0</td>
+  <td class='hours'>7.0</td>
+  <td>06/08/2026 09:53</td>
+  <td>06/08/2026 18:01</td>
+</tr>
+<tr>
+  <td><strong>77910</strong></td>
+  <td>Banco de dados - Cria&#231;&#227;o da consulta para retorno de informa&#231;&#245;es do relat&#243;rio Master</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state done'>Done</span></td>
+  <td class='hours'>8.0</td>
+  <td class='hours'></td>
+  <td class='hours'>6.0</td>
+  <td class='hours'>8.0</td>
+  <td>06/08/2026 09:51</td>
+  <td>10/08/2026 17:56</td>
+</tr>
+<tr>
+  <td><strong>77883</strong></td>
+  <td>Analisar e evidenciar os pontos de valida&#231;&#227;o da idade do ve&#237;culo</td>
+  <td>Amazon</td>
+  <td>&#10003;</td>
+  <td><span class='state done'>Done</span></td>
+  <td class='hours'>3.0</td>
+  <td class='hours'></td>
+  <td class='hours'>4.0</td>
+  <td class='hours'>3.0</td>
+  <td>05/08/2026 14:22</td>
+  <td>05/08/2026 18:00</td>
+</tr>
+        </tbody>
+      </table>
+    </section>
+    <div class='note' data-i18n='note_text'>Hours spent = soma apenas dos itens Done/Closed pelo Completed Work. Completed Work fica vazio para os demais status, e a coluna Effort continua disponivel como estimativa.</div>
+  </div>
+  <script>
+    const html = document.documentElement.outerHTML;
+    const refreshUrl = 'http://127.0.0.1:8787/refresh';
+    const translations = {
+      pt: {
+        page_title: 'Worked hours - Ingrid / Amazon',
+        subtitle: (data) => Tasks <strong>created from 09/04/2026</strong> and <strong>assigned to Ingrid Vieira Alves</strong> - client resolved by PBI/Task - last update at <strong></strong>,
+        download_html: 'Download HTML',
+        refresh_now: 'Refresh now',
+        open_table: 'Open table',
+        view_focus: 'View current focus',
+        focus_panel_title: 'What she is working on now',
+        rapid_reading: 'Quick view',
+        focus_by_status: 'Focus by status',
+        hours_spent_label: 'Hours spent so far',
+        hours_spent_sub: 'Updated with the latest Azure DevOps extract',
+        october_goal_label: 'October goal',
+        monthly_reference: 'Monthly reference of 157.5 hours',
+        predominant_client: 'Predominant client',
+        filtered_items: 'Filtered items',
+        sprint_hours_october: 'October sprint hours',
+        name_label: 'Name',
+        legend_done: 'Done',
+        legend_in_progress: 'In Progress',
+        legend_new: 'New',
+        table_id: 'ID',
+        table_activity: 'Atividade',
+        table_client: 'Cliente',
+        table_ats: 'ATS',
+        table_state: 'State',
+        table_effort: 'Effort',
+        table_hours_spent: 'Hours spent',
+        table_created_at: 'Created at',
+        table_changed_at: 'Changed at',
+        note_text: 'Hours spent = soma apenas dos itens Done/Closed pelo Completed Work. Completed Work fica vazio para os demais status, e a coluna Effort continua disponivel como estimativa.',
+        status_focus_title: 'Working now',
+        status_focus_desc: 'Items with active work or recent review',
+        status_queue_title: 'Waiting / queue',
+        status_queue_desc: 'Items that have not entered execution yet',
+        status_done_title: 'Completed',
+        status_done_desc: 'Items finished in the selected period',
+        badge_in_progress: 'Em andamento',
+        state_now: 'Now',
+        state_done: 'Done',
+        state_queue: 'Queue',
+        state_graph: 'State Graph',
+        pbi_label: 'PBI',
+        epic_label: 'Epic',
+        completed_work: 'Completed Work',
+        remaining_work: 'Remaining Work',
+        item_type: 'Task',
+        current_task_summary: 'Current task summary',
+        progress_label: 'Progress',
+        empty_active: 'No task in progress right now.',
+        empty_summary: 'No task in progress to show the summary.',
+        empty_status_column: 'No items in this column.'
+      },
+      en: {
+        page_title: 'Worked hours - Ingrid / Amazon',
+        subtitle: (data) => Tasks <strong>created from 09/04/2026</strong> and <strong>assigned to Ingrid Vieira Alves</strong> - client resolved by PBI/Task - last update at <strong></strong>,
+        download_html: 'Download HTML',
+        refresh_now: 'Refresh now',
+        open_table: 'Open table',
+        view_focus: 'View current focus',
+        focus_panel_title: 'What she is working on now',
+        rapid_reading: 'Quick view',
+        focus_by_status: 'Focus by status',
+        hours_spent_label: 'Hours spent so far',
+        hours_spent_sub: 'Updated with the latest Azure DevOps extract',
+        october_goal_label: 'October goal',
+        monthly_reference: 'Monthly reference of 157.5 hours',
+        predominant_client: 'Predominant client',
+        filtered_items: 'Filtered items',
+        sprint_hours_october: 'October sprint hours',
+        name_label: 'Name',
+        legend_done: 'Done',
+        legend_in_progress: 'In Progress',
+        legend_new: 'New',
+        table_id: 'ID',
+        table_activity: 'Activity',
+        table_client: 'Client',
+        table_ats: 'ATS',
+        table_state: 'State',
+        table_effort: 'Effort',
+        table_hours_spent: 'Hours spent',
+        table_created_at: 'Created at',
+        table_changed_at: 'Changed at',
+        note_text: 'Hours spent = sum only of Done/Closed items by Completed Work. Completed Work stays empty for the other statuses, and the Effort column remains available as an estimate.',
+        status_focus_title: 'Working now',
+        status_focus_desc: 'Items with active work or recent review',
+        status_queue_title: 'Waiting / queue',
+        status_queue_desc: 'Items that have not entered execution yet',
+        status_done_title: 'Completed',
+        status_done_desc: 'Items finished in the selected period',
+        badge_in_progress: 'In progress',
+        state_now: 'Now',
+        state_done: 'Done',
+        state_queue: 'Queue',
+        state_graph: 'State Graph',
+        pbi_label: 'PBI',
+        epic_label: 'Epic',
+        completed_work: 'Completed Work',
+        remaining_work: 'Remaining Work',
+        item_type: 'Task',
+        current_task_summary: 'Current task summary',
+        progress_label: 'Progress',
+        empty_active: 'No task in progress right now.',
+        empty_summary: 'No task in progress to show the summary.',
+        empty_status_column: 'No items in this column.'
+      }
+    };
+
+    function applyLanguage(lang) {
+      const dict = translations[lang] || translations.pt;
+      document.documentElement.lang = lang === 'en' ? 'en-US' : 'pt-BR';
+      localStorage.setItem('dashboard-language', lang);
+
+      document.title = dict.page_title;
+      const subtitle = document.getElementById('subtitle-line');
+      if (subtitle) {
+        subtitle.innerHTML = dict.subtitle({ changedDate: subtitle.dataset.changedDate || '' });
+      }
+
+      document.querySelectorAll('[data-i18n]').forEach((node) => {
+        const key = node.getAttribute('data-i18n');
+        const value = dict[key];
+        if (typeof value === 'string') {
+          node.textContent = value;
+        }
+      });
+
+      const ptButton = document.getElementById('lang-pt');
+      const enButton = document.getElementById('lang-en');
+      ptButton.classList.toggle('active', lang !== 'en');
+      enButton.classList.toggle('active', lang === 'en');
+      ptButton.setAttribute('href', '/');
+      enButton.setAttribute('href', '/en.html');
+      document.getElementById('refresh-button').textContent = dict.refresh_now;
+      document.getElementById('download-link').textContent = dict.download_html;
+    }
+    window.applyLanguage = applyLanguage;
+
+    const urlLanguage = new URLSearchParams(window.location.search).get('lang');
+    const browserLanguage = navigator.language && navigator.language.toLowerCase().startsWith('en') ? 'en' : 'pt';
+    const savedLanguage = localStorage.getItem('dashboard-language') || '';
+    const downloadLink = document.getElementById('download-link');
+    downloadLink.href = '#';
+    downloadLink.setAttribute('download', 'amazon-hours-dashboard.html');
+    downloadLink.addEventListener('click', (event) => {
+      event.preventDefault();
+      const blob = new Blob([document.documentElement.outerHTML], { type: 'text/html;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const anchor = document.createElement('a');
+      anchor.href = url;
+      anchor.download = 'amazon-hours-dashboard.html';
+      document.body.appendChild(anchor);
+      anchor.click();
+      anchor.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    });
+    document.getElementById('refresh-button').addEventListener('click', async () => {
+      const button = document.getElementById('refresh-button');
+      const lang = localStorage.getItem('dashboard-language') || 'pt';
+      const dict = translations[lang] || translations.pt;
+      button.disabled = true;
+      button.textContent = lang === 'en' ? 'Refreshing...' : 'Atualizando...';
+      try {
+        const response = await fetch(refreshUrl, { method: 'POST' });
+        if (!response.ok) throw new Error('Refresh failed');
+        window.location.reload();
+      } catch (error) {
+        button.disabled = false;
+        button.textContent = dict.refresh_now;
+        alert(lang === 'en'
+          ? 'Unable to refresh now. Open the dashboard through the local server to enable refresh.'
+          : 'Nao foi possivel atualizar agora. Abra o dashboard pelo servidor local para habilitar o refresh.');
+      }
+    });
+    applyLanguage((urlLanguage === 'en' || urlLanguage === 'pt' ? urlLanguage : (savedLanguage === 'en' || savedLanguage === 'pt' ? savedLanguage : browserLanguage)));
+  </script>
+</body>
+</html>
+

@@ -136,7 +136,7 @@
         <a href='#foco' id='focus-link' data-i18n='view_focus'>View current focus</a>
         <div class='lang-switch' aria-label='Language switch'>
           <a class='primary active' id='lang-pt' data-lang='pt' href='/'>PT</a>
-          <a id='lang-en' data-lang='en' href='/en/'>EN</a>
+          <a id='lang-en' data-lang='en' href='/en.html'>EN</a>
         </div>
       </div>
       <div class='hero-grid'>
@@ -1341,7 +1341,7 @@
       ptButton.classList.toggle('active', lang !== 'en');
       enButton.classList.toggle('active', lang === 'en');
       ptButton.setAttribute('href', '/');
-      enButton.setAttribute('href', '/en/');
+      enButton.setAttribute('href', '/en.html');
       document.getElementById('refresh-button').textContent = dict.refresh_now;
       document.getElementById('download-link').textContent = dict.download_html;
     }
