@@ -126,8 +126,8 @@
   <div class='page'>
     <section class='hero'>
       <h1 id='page-title' data-i18n='page_title'>Horas trabalhadas - Ingrid / Amazon</h1>
-      <div class='subtitle' id='subtitle-line' data-created-date='04/09/2026' data-changed-date='14/10/2026 13:52' data-i18n='subtitle'>
-        Tasks <strong>criadas a partir de 04/09/2026</strong> e <strong>atribuidas a Ingrid Vieira Alves</strong> - cliente resolvido pela PBI/Task - ultimo update em <strong>14/10/2026 13:52</strong>
+      <div class='subtitle' id='subtitle-line' data-created-date='04/09/2026' data-changed-date='14/10/2026 15:07' data-i18n='subtitle'>
+        Tasks <strong>criadas a partir de 04/09/2026</strong> e <strong>atribuidas a Ingrid Vieira Alves</strong> - cliente resolvido pela PBI/Task - ultimo update em <strong>14/10/2026 15:07</strong>
       </div>
       <div class='toolbar'>
         <a class='primary' id='download-link' href='#' download='amazon-hours-dashboard.html' data-i18n='download_html'>Baixar HTML</a>
@@ -136,7 +136,7 @@
         <a href='#foco' id='focus-link' data-i18n='view_focus'>Ver foco atual</a>
         <div class='lang-switch' aria-label='Language switch'>
           <button type='button' class='primary active' id='lang-pt' data-lang='pt'>PT</button>
-          <button type='button' id='lang-en' data-lang='en'>EUA</button>
+          <button type='button' id='lang-en' data-lang='en'>EN</button>
         </div>
       </div>
       <div class='hero-grid'>
@@ -151,10 +151,10 @@
       <div class='focus-summary__label' data-i18n='current_task_summary'>Resumo da task atual</div>
       <div class='focus-summary__title'>Implementar classes para as novas tabelas</div>
     </div>
-    <div class='focus-summary__percent'>10.0%</div>
+    <div class='focus-summary__percent'>30.0%</div>
   </div>
   <div class='progress-track'>
-    <div class='progress-fill' style='width: 10.0%'></div>
+    <div class='progress-fill' style='width: 30.0%'></div>
   </div>
   <div class='focus-summary__grid'>
     <div class='focus-summary__box'>
@@ -171,7 +171,7 @@
     </div>
     <div class='focus-summary__box'>
       <span data-i18n='progress_label'>Progresso</span>
-      <strong>0.5h / 5.0h</strong>
+      <strong>1.5h / 5.0h</strong>
     </div>
   </div>
 </div>
@@ -179,13 +179,13 @@
             <article class='focus-card'>
   <div class='focus-card__top'>
     <span class='focus-badge' data-i18n='badge_in_progress'>Em andamento</span>
-    <span class='focus-hours'>4.5h</span>
+    <span class='focus-hours'>3.5h</span>
   </div>
   <div class='focus-card__title'>Implementar classes para as novas tabelas</div>
   <div class='focus-card__meta'>#79697 &bull; <span data-i18n='item_type'>Task</span> &bull; <span data-i18n='state_graph'>State Graph</span>: To Do 14:17 | In Progress 13:23</div>
   <div class='focus-card__meta'><span data-i18n='pbi_label'>PBI</span>: #77125 - Desenvolver o servi&#231;o de envio de viagens para Demarco e Argus (PBI)</div>
   <div class='focus-card__meta'><span data-i18n='epic_label'>Epic</span>: #77122 - Amazon - Integra&#231;&#245;es Demarco e Argus - Frota Legal</div>
-  <div class='focus-card__meta'><span data-i18n='remaining_work'>Remaining Work</span>: 4.5h &bull; <span data-i18n='completed_work'>Completed Work</span>: 0.5h</div>
+  <div class='focus-card__meta'><span data-i18n='remaining_work'>Remaining Work</span>: 3.5h &bull; <span data-i18n='completed_work'>Completed Work</span>: 1.5h</div>
 </article>
           </div>
         </div>
@@ -245,7 +245,7 @@
   <div class='status-item__meta'><span data-i18n='item_type'>Task</span> &bull; <span data-i18n='state_graph'>State Graph</span>: To Do 14:17 | In Progress 13:23</div>
   <div class='status-item__meta'><span data-i18n='pbi_label'>PBI</span>: #77125 - Desenvolver o servi&#231;o de envio de viagens para Demarco e Argus (PBI)</div>
   <div class='status-item__meta'><span data-i18n='epic_label'>Epic</span>: #77122 - Amazon - Integra&#231;&#245;es Demarco e Argus - Frota Legal</div>
-  <div class='status-item__meta'><span data-i18n='completed_work'>Completed Work</span>: 0.5h &bull; <span data-i18n='remaining_work'>Remaining Work</span>: 4.5h</div>
+  <div class='status-item__meta'><span data-i18n='completed_work'>Completed Work</span>: 1.5h &bull; <span data-i18n='remaining_work'>Remaining Work</span>: 3.5h</div>
 </div>
   </div>
 </section>
@@ -400,12 +400,12 @@
   <td>Amazon</td>
   <td>&#10003;</td>
   <td><span class='state progress'>In Progress</span></td>
-  <td class='hours'>0.5</td>
-  <td class='hours'>4.5</td>
+  <td class='hours'>1.5</td>
+  <td class='hours'>3.5</td>
   <td class='hours'>5.0</td>
   <td class='hours'></td>
   <td>23/09/2026 14:17</td>
-  <td>14/10/2026 13:52</td>
+  <td>14/10/2026 15:07</td>
 </tr>
 <tr>
   <td><strong>79720</strong></td>
@@ -1344,7 +1344,9 @@
       document.getElementById('download-link').textContent = dict.download_html;
     }
 
-    const savedLanguage = localStorage.getItem('dashboard-language') || 'pt';
+    const urlLanguage = new URLSearchParams(window.location.search).get('lang');
+    const browserLanguage = navigator.language && navigator.language.toLowerCase().startsWith('en') ? 'en' : 'pt';
+    const savedLanguage = localStorage.getItem('dashboard-language') || '';
     const downloadLink = document.getElementById('download-link');
     downloadLink.href = '#';
     downloadLink.setAttribute('download', 'amazon-hours-dashboard.html');
@@ -1380,7 +1382,7 @@
     });
     document.getElementById('lang-pt').addEventListener('click', () => applyLanguage('pt'));
     document.getElementById('lang-en').addEventListener('click', () => applyLanguage('en'));
-    applyLanguage(savedLanguage === 'en' ? 'en' : 'pt');
+    applyLanguage((urlLanguage === 'en' || urlLanguage === 'pt' ? urlLanguage : (savedLanguage === 'en' || savedLanguage === 'pt' ? savedLanguage : browserLanguage)));
   </script>
 </body>
 </html>
