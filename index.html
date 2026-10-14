@@ -135,8 +135,8 @@
         <a href='#tabela' id='open-table-link' data-i18n='open_table'>Abrir tabela</a>
         <a href='#foco' id='focus-link' data-i18n='view_focus'>Ver foco atual</a>
         <div class='lang-switch' aria-label='Language switch'>
-          <button type='button' class='primary active' id='lang-pt' data-lang='pt' onclick="applyLanguage('pt'); return false;">PT</button>
-          <button type='button' id='lang-en' data-lang='en' onclick="applyLanguage('en'); return false;">EN</button>
+          <button type='button' class='primary active' id='lang-pt' data-lang='pt'>PT</button>
+          <button type='button' id='lang-en' data-lang='en'>EN</button>
         </div>
       </div>
       <div class='hero-grid'>
@@ -1346,6 +1346,7 @@
       document.getElementById('refresh-button').textContent = dict.refresh_now;
       document.getElementById('download-link').textContent = dict.download_html;
     }
+    window.applyLanguage = applyLanguage;
 
     const urlLanguage = new URLSearchParams(window.location.search).get('lang');
     const browserLanguage = navigator.language && navigator.language.toLowerCase().startsWith('en') ? 'en' : 'pt';
@@ -1383,6 +1384,8 @@
           : 'Nao foi possivel atualizar agora. Abra o dashboard pelo servidor local para habilitar o refresh.');
       }
     });
+    document.getElementById('lang-pt').addEventListener('click', () => applyLanguage('pt'));
+    document.getElementById('lang-en').addEventListener('click', () => applyLanguage('en'));
     applyLanguage((urlLanguage === 'en' || urlLanguage === 'pt' ? urlLanguage : (savedLanguage === 'en' || savedLanguage === 'pt' ? savedLanguage : browserLanguage)));
   </script>
 </body>
