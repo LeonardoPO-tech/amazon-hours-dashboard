@@ -145,6 +145,28 @@
     .worked-hours-panel__label { color: #9fb2d1; font-size: 11px; text-transform: uppercase; letter-spacing: .08em; }
     .worked-hours-panel__value { font-size: 44px; font-weight: 800; line-height: 1; color: #ffb020; }
     .worked-hours-panel__sub { color: #9fb2d1; font-size: 12px; }
+    .worked-hours-panel--secondary {
+      min-height: 112px;
+      margin-top: 10px;
+      background: linear-gradient(180deg, rgba(15,30,55,.92), rgba(10,18,32,.96));
+    }
+    .worked-hours-panel__total {
+      margin-top: 2px;
+      color: #d6ecff;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .worked-hours-panel--secondary {
+      min-height: 112px;
+      margin-top: 10px;
+      background: linear-gradient(180deg, rgba(15,30,55,.92), rgba(10,18,32,.96));
+    }
+    .worked-hours-panel__total {
+      margin-top: 2px;
+      color: #d6ecff;
+      font-size: 13px;
+      font-weight: 700;
+    }
     .state { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; }
     .state.done { background: rgba(45,181,93,.15); color: #71d58e; }
     .state.progress { background: rgba(31,142,241,.15); color: #7ec0ff; }
@@ -258,6 +280,18 @@
               <div class='worked-hours-panel__label' data-i18n='worked_hours_label'>Horas trabalhadas hoje</div>
               <div class='worked-hours-panel__value'>6.0</div>
               <div class='worked-hours-panel__sub' data-i18n='worked_hours_sub'>Soma do trabalho concluido nas tasks atualizadas hoje</div>
+            </div>
+            <div class='worked-hours-panel worked-hours-panel--secondary'>
+              <div class='worked-hours-panel__label' data-i18n='worked_hours_week_label'>Horas trabalhadas na semana</div>
+              <div class='worked-hours-panel__value'>24.0</div>
+              <div class='worked-hours-panel__total' data-i18n='worked_hours_total_label'>Total ate o momento: 238.8 h</div>
+              <div class='worked-hours-panel__sub' data-i18n='worked_hours_week_sub'>Segunda a sexta, acumulado da semana atual</div>
+            </div>
+            <div class='worked-hours-panel worked-hours-panel--secondary'>
+              <div class='worked-hours-panel__label' data-i18n='worked_hours_week_label'>Horas trabalhadas na semana</div>
+              <div class='worked-hours-panel__value'>24.0</div>
+              <div class='worked-hours-panel__total' data-i18n='worked_hours_total_label'>Total ate o momento: 238.8 h</div>
+              <div class='worked-hours-panel__sub' data-i18n='worked_hours_week_sub'>Segunda a sexta, acumulado da semana atual</div>
             </div>
           </div>
         </div>
@@ -1271,6 +1305,9 @@
         legend_new: 'Novo',
         worked_hours_label: 'Horas trabalhadas hoje',
         worked_hours_sub: 'Soma do trabalho concluido nas tasks atualizadas hoje',
+        worked_hours_week_label: 'Horas trabalhadas na semana',
+        worked_hours_week_sub: 'Segunda a sexta, acumulado da semana atual',
+        worked_hours_total_label: 'Total ate o momento',
         table_id: 'ID',
         table_activity: 'Atividade',
         table_client: 'Cliente',
@@ -1326,6 +1363,9 @@
         legend_new: 'New',
         worked_hours_label: 'Horas trabalhadas hoje',
         worked_hours_sub: 'Soma do trabalho concluido nas tasks atualizadas hoje',
+        worked_hours_week_label: 'Horas trabalhadas na semana',
+        worked_hours_week_sub: 'Segunda a sexta, acumulado da semana atual',
+        worked_hours_total_label: 'Total ate o momento',
         table_id: 'ID',
         table_activity: 'Activity',
         table_client: 'Client',
