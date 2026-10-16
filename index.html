@@ -236,6 +236,35 @@
       font-size: 12px;
       text-align: center;
     }
+    .worked-hours-project-card__milestones {
+      margin-top: 10px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+    .worked-hours-project-card__milestone {
+      background: rgba(255,255,255,.03);
+      border: 1px solid #22324b;
+      border-radius: 12px;
+      padding: 10px 12px;
+      text-align: center;
+      min-height: 62px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .worked-hours-project-card__milestone-label {
+      color: #9fb2d1;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      margin-bottom: 4px;
+    }
+    .worked-hours-project-card__milestone-value {
+      color: #f4f7fb;
+      font-size: 14px;
+      font-weight: 700;
+    }
     .state { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; }
     .state.done { background: rgba(45,181,93,.15); color: #71d58e; }
     .state.progress { background: rgba(31,142,241,.15); color: #7ec0ff; }
@@ -399,6 +428,20 @@
                 </div>
                 <div class='worked-hours-progress__track' aria-label='Progresso do projeto atual'>
                   <div class='worked-hours-progress__fill' style='width: 66%'></div>
+                </div>
+                <div class='worked-hours-project-card__milestones'>
+                  <div class='worked-hours-project-card__milestone'>
+                    <div class='worked-hours-project-card__milestone-label'>Start date</div>
+                    <div class='worked-hours-project-card__milestone-value'>04/09</div>
+                  </div>
+                  <div class='worked-hours-project-card__milestone'>
+                    <div class='worked-hours-project-card__milestone-label'>HomologaÃ§Ã£o</div>
+                    <div class='worked-hours-project-card__milestone-value'>26/10</div>
+                  </div>
+                  <div class='worked-hours-project-card__milestone'>
+                    <div class='worked-hours-project-card__milestone-label'>Go Live</div>
+                    <div class='worked-hours-project-card__milestone-value'>04/11</div>
+                  </div>
                 </div>
                 <div class='worked-hours-project-card__foot'>44 de 67 work items &bull; 23 restantes</div>
               </div>
