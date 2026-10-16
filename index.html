@@ -202,6 +202,40 @@
       border-radius: 999px;
       background: linear-gradient(90deg, #1f8ef1, #ffb020);
     }
+    .worked-hours-project-card {
+      margin-top: 10px;
+      border: 1px solid #30415f;
+      border-radius: 18px;
+      padding: 14px 16px 16px;
+      background: linear-gradient(180deg, rgba(18,37,68,.92), rgba(11,21,38,.96));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.03);
+    }
+    .worked-hours-project-card__head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+    .worked-hours-project-card__label { color: #9fb2d1; font-size: 11px; text-transform: uppercase; letter-spacing: .08em; }
+    .worked-hours-project-card__sub { color: #9fb2d1; font-size: 12px; margin-top: 6px; }
+    .worked-hours-project-card__percent {
+      min-width: 72px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: 800;
+      color: #7ec0ff;
+      padding: 10px 12px;
+      border-radius: 16px;
+      background: rgba(31,142,241,.10);
+      border: 1px solid rgba(31,142,241,.18);
+    }
+    .worked-hours-project-card__foot {
+      margin-top: 8px;
+      color: #9fb2d1;
+      font-size: 12px;
+      text-align: center;
+    }
     .state { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; }
     .state.done { background: rgba(45,181,93,.15); color: #71d58e; }
     .state.progress { background: rgba(31,142,241,.15); color: #7ec0ff; }
@@ -342,6 +376,31 @@
                     <div class='worked-hours-progress__fill' style='width: 83.0%'></div>
                   </div>
                 </div>
+              </div>
+            </div>
+            <div class='worked-hours-project-card'>
+              <div class='worked-hours-project-card__head'>
+                <div>
+                  <div class='worked-hours-project-card__label' data-i18n='current_project_progress_label'>Progresso projeto atual</div>
+                  <div class='worked-hours-project-card__sub' data-i18n='current_project_progress_sub'>Baseado nas tasks em andamento agora</div>
+                </div>
+                <div class='worked-hours-project-card__percent'>0.0%</div>
+              </div>
+              <div class='worked-hours-progress'>
+                <div class='worked-hours-progress__meta'>
+                  <span class='worked-hours-progress__stat'>
+                    <span class='worked-hours-progress__stat-label' data-i18n='current_project_progress_done'>Concluido</span>
+                    <span class='worked-hours-progress__stat-value'>0.0 h</span>
+                  </span>
+                  <span class='worked-hours-progress__stat'>
+                    <span class='worked-hours-progress__stat-label' data-i18n='current_project_progress_total'>Total</span>
+                    <span class='worked-hours-progress__stat-value'>0.0 h</span>
+                  </span>
+                </div>
+                <div class='worked-hours-progress__track' aria-label='Progresso do projeto atual'>
+                  <div class='worked-hours-progress__fill' style='width: 0.0%'></div>
+                </div>
+                <div class='worked-hours-project-card__foot'>0.0 h / 0.0 h &bull; 0.0 h restantes</div>
               </div>
             </div>
           </div>
@@ -1422,6 +1481,10 @@
         worked_hours_week_label: 'Horas trabalhadas na semana',
         worked_hours_week_sub: 'Segunda a sexta, acumulado da semana atual',
         worked_hours_total_label: 'Total ate o momento',
+        current_project_progress_label: 'Progresso projeto atual',
+        current_project_progress_sub: 'Baseado nas tasks em andamento agora',
+        current_project_progress_done: 'Concluido',
+        current_project_progress_total: 'Total',
         worked_hours_week_goal_label: 'Meta semanal',
         worked_hours_week_goal_total: '37,5 h',
         worked_hours_week_goal_remaining_prefix: 'Horas restantes',
@@ -1484,6 +1547,10 @@
         worked_hours_week_label: 'Horas trabalhadas na semana',
         worked_hours_week_sub: 'Segunda a sexta, acumulado da semana atual',
         worked_hours_total_label: 'Total ate o momento',
+        current_project_progress_label: 'Current project progress',
+        current_project_progress_sub: 'Based on the tasks in progress now',
+        current_project_progress_done: 'Completed',
+        current_project_progress_total: 'Total',
         worked_hours_week_goal_label: 'Weekly goal',
         worked_hours_week_goal_total: '37.5 h',
         worked_hours_week_goal_remaining_prefix: 'Hours remaining',
