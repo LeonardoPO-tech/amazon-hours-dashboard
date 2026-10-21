@@ -471,11 +471,14 @@
     <section class='hero projects-only is-hidden' id='projects-screen'>
       <h1 data-i18n='projects_page_title'>Projetos Amazon</h1>
       <div class='subtitle' data-i18n='projects_subtitle'>Resumo dos projetos planejados e dos que aguardam planejamento.</div>
+      <div class='toolbar'>
+        <button class='primary' id='switch-screen-back-button' type='button' data-i18n='view_hours'>Voltar para painel principal</button>
+      </div>
       <div class='project-kpi-grid'>
         <div class='project-kpi accent'>
           <div class='project-kpi__label' data-i18n='projects_kpi_total'>Projetos em andamento</div>
           <div class='project-kpi__value'>2</div>
-          <div class='project-kpi__sub'>Epic 77573 - Amazon - Cadastro, vinculação e visualização de rotas no BRLog</div>
+          <div class='project-kpi__sub'>Epic 77122 - Amazon - Integrações Demarco e Argus - Frota Legal</div>
         </div>
         <div class='project-kpi'>
           <div class='project-kpi__label' data-i18n='projects_kpi_items'>Progresso por itens</div>
@@ -501,27 +504,6 @@
           </thead>
           <tbody>
             <tr>
-  <td><strong>#77573</strong> - Amazon - Cadastro, vincula&#231;&#227;o e visualiza&#231;&#227;o de rotas no BRLog</td>
-  <td><span class='state todo'>New</span></td>
-  <td>29/07/2026 11:55</td>
-  <td>
-    <div class='project-progress'>
-      <div class='project-progress__track'>
-        <div class='project-progress__fill' style='width: 0%'></div>
-      </div>
-      <span>0% (0/12)</span>
-    </div>
-  </td>
-  <td>
-    <div class='project-progress'>
-      <div class='project-progress__track'>
-        <div class='project-progress__fill effort' style='width: 0%'></div>
-      </div>
-      <span>0% (0.0h/0.0h)</span>
-    </div>
-  </td>
-</tr>
-<tr>
   <td><strong>#77122</strong> - Amazon - Integra&#231;&#245;es Demarco e Argus - Frota Legal</td>
   <td><span class='state progress'>In Progress</span></td>
   <td>03/09/2026 15:50</td>
@@ -539,6 +521,27 @@
         <div class='project-progress__fill effort' style='width: 97%'></div>
       </div>
       <span>97% (181.8h/188.0h)</span>
+    </div>
+  </td>
+</tr>
+<tr>
+  <td><strong>#77573</strong> - Amazon - Cadastro, vincula&#231;&#227;o e visualiza&#231;&#227;o de rotas no BRLog</td>
+  <td><span class='state todo'>New</span></td>
+  <td>29/07/2026 11:55</td>
+  <td>
+    <div class='project-progress'>
+      <div class='project-progress__track'>
+        <div class='project-progress__fill' style='width: 0%'></div>
+      </div>
+      <span>0% (0/12)</span>
+    </div>
+  </td>
+  <td>
+    <div class='project-progress'>
+      <div class='project-progress__track'>
+        <div class='project-progress__fill effort' style='width: 0%'></div>
+      </div>
+      <span>0% (0.0h/0.0h)</span>
     </div>
   </td>
 </tr>
@@ -1757,6 +1760,7 @@
     const mainElements = Array.from(document.querySelectorAll('.main-only'));
     const projectsScreen = document.getElementById('projects-screen');
     const switchScreenButton = document.getElementById('switch-screen-button');
+    const switchScreenBackButton = document.getElementById('switch-screen-back-button');
     let showingProjectsScreen = false;
 
     function updateScreenState() {
@@ -1770,6 +1774,9 @@
       const dict = translations[lang] || translations.pt;
       if (switchScreenButton) {
         switchScreenButton.textContent = showingProjectsScreen ? dict.view_hours : dict.view_projects;
+      }
+      if (switchScreenBackButton) {
+        switchScreenBackButton.textContent = dict.view_hours;
       }
     }
 
@@ -1796,6 +1803,9 @@
       if (switchScreenButton) {
         switchScreenButton.textContent = showingProjectsScreen ? dict.view_hours : dict.view_projects;
       }
+      if (switchScreenBackButton) {
+        switchScreenBackButton.textContent = dict.view_hours;
+      }
     }
     window.applyLanguage = applyLanguage;
 
@@ -1817,6 +1827,12 @@
     if (switchScreenButton) {
       switchScreenButton.addEventListener('click', () => {
         showingProjectsScreen = !showingProjectsScreen;
+        updateScreenState();
+      });
+    }
+    if (switchScreenBackButton) {
+      switchScreenBackButton.addEventListener('click', () => {
+        showingProjectsScreen = false;
         updateScreenState();
       });
     }
