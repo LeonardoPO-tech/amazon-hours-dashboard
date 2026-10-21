@@ -10,6 +10,7 @@
     :root { color-scheme: dark; }
     * { box-sizing: border-box; }
     body { margin: 0; font-family: Segoe UI, Arial, sans-serif; background: #07111f; color: #e5eefb; }
+    .is-hidden { display: none !important; }
     .page { padding: 18px; }
     .hero { background: linear-gradient(180deg, #0a1324 0%, #0c1629 100%); border: 1px solid #243149; border-radius: 14px; padding: 20px 22px; box-shadow: 0 8px 24px rgba(0,0,0,.24); }
     .hero h1 { margin: 0 0 8px; font-size: 30px; font-weight: 700; }
@@ -274,15 +275,30 @@
     thead th { position: sticky; top: 0; z-index: 2; background: #111d33; color: #a8bad9; text-align: left; font-size: 12px; padding: 14px 12px; border-bottom: 1px solid #27324a; }
     tbody td { padding: 13px 12px; border-bottom: 1px solid #1f2c43; vertical-align: middle; font-size: 14px; }
     tbody tr:hover { background: #173555; }
+    .project-kpi-grid { margin-top: 14px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+    .project-kpi { background: #0d1a30; border: 1px solid #27324a; border-radius: 14px; padding: 14px; min-height: 92px; text-align: center; display: flex; flex-direction: column; justify-content: center; }
+    .project-kpi__label { color: #8ea3c5; font-size: 11px; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 6px; }
+    .project-kpi__value { color: #f4f7fb; font-size: 28px; font-weight: 800; line-height: 1.05; }
+    .project-kpi__sub { color: #9fb2d1; font-size: 12px; margin-top: 6px; }
+    .project-kpi.accent .project-kpi__value { color: #7ec0ff; }
+    .project-kpi.goal .project-kpi__value { color: #71d58e; }
+    .project-table-card { margin-top: 12px; }
+    .projects-table td { vertical-align: middle; }
+    .project-progress { display: grid; gap: 6px; min-width: 220px; }
+    .project-progress__track { width: 100%; height: 12px; border-radius: 999px; background: #2a3343; overflow: hidden; }
+    .project-progress__fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, #1f8ef1, #2d8de0); }
+    .project-progress__fill.effort { background: linear-gradient(90deg, #2db55d, #71d58e); }
+    .project-progress span { color: #d6e2f4; font-size: 12px; }
+    .project-empty { text-align: center; color: #9fb2d1; font-style: italic; padding: 20px 12px; }
     .hours { font-variant-numeric: tabular-nums; font-weight: 700; color: #ffd166; }
     .note { margin-top: 12px; color: #8ea3c5; font-size: 12px; }
-    @media (max-width: 1300px) { .hero-grid { grid-template-columns: 1fr; } .kpi-top { grid-template-columns: 1fr; } .kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 1300px) { .hero-grid { grid-template-columns: 1fr; } .kpi-top { grid-template-columns: 1fr; } .kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .project-kpi-grid { grid-template-columns: 1fr; } }
     @media (max-width: 900px) { .kpi-grid { grid-template-columns: 1fr; } .worked-hours-panels-row { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body translate='no' class='notranslate'>
   <div class='page'>
-    <section class='hero'>
+    <section class='hero main-only' id='main-screen'>
       <h1 id='page-title' data-i18n='page_title'>Worked hours - Ingrid / Amazon</h1>
       <div class='subtitle' id='subtitle-line' data-created-date='01/08/2026' data-changed-date='21/10/2026 08:46' data-i18n='subtitle'>
         Tasks <strong>created from 01/08/2026</strong> and <strong>assigned to Ingrid Vieira Alves</strong> - client resolved by PBI/Task - last update at <strong>21/10/2026 08:46</strong>
@@ -290,6 +306,7 @@
       <div class='toolbar'>
         <a class='primary' id='download-link' href='#' download='amazon-hours-dashboard.html' data-i18n='download_html'>Download HTML</a>
         <button class='primary' id='refresh-button' type='button' data-i18n='refresh_now'>Refresh now</button>
+        <button id='switch-screen-button' type='button' data-i18n='view_projects'>Ver projetos em andamento</button>
         <a href='#tabela' id='open-table-link' data-i18n='open_table'>Open table</a>
         <a href='#foco' id='focus-link' data-i18n='view_focus'>View current focus</a>
       </div>
@@ -451,7 +468,65 @@
       </div>
     </section>
 
-    <section class='table-card' style='margin-top:14px; border: 0; background: transparent;'>
+    <section class='hero projects-only is-hidden' id='projects-screen'>
+      <h1 data-i18n='projects_page_title'>Visao de Backlog em Andamento - Amazon</h1>
+      <div class='subtitle' data-i18n='projects_subtitle'>Resumo dos EPICs em andamento com progresso por itens e esforco.</div>
+      <div class='project-kpi-grid'>
+        <div class='project-kpi accent'>
+          <div class='project-kpi__label' data-i18n='projects_kpi_total'>Projetos em andamento</div>
+          <div class='project-kpi__value'>1</div>
+          <div class='project-kpi__sub'>Epic 77122 - Amazon - Integrações Demarco e Argus - Frota Legal</div>
+        </div>
+        <div class='project-kpi'>
+          <div class='project-kpi__label' data-i18n='projects_kpi_items'>Progresso por itens</div>
+          <div class='project-kpi__value'>69%</div>
+          <div class='project-kpi__sub'>47 de 68 work items</div>
+        </div>
+        <div class='project-kpi goal'>
+          <div class='project-kpi__label' data-i18n='projects_kpi_effort'>Progresso por esforco</div>
+          <div class='project-kpi__value'>97%</div>
+          <div class='project-kpi__sub'>181.8 h de 188.0 h</div>
+        </div>
+      </div>
+      <section class='table-card project-table-card'>
+        <table class='projects-table'>
+          <thead>
+            <tr>
+              <th style='width:36%' data-i18n='projects_table_project'>Projeto (Epic)</th>
+              <th style='width:12%' data-i18n='projects_table_state'>Estado</th>
+              <th style='width:16%' data-i18n='projects_table_start'>Start Date</th>
+              <th style='width:18%' data-i18n='projects_table_items_progress'>Progresso por itens</th>
+              <th style='width:18%' data-i18n='projects_table_effort_progress'>Progresso por esforco</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+  <td><strong>#77122</strong> - Amazon - Integra&#231;&#245;es Demarco e Argus - Frota Legal</td>
+  <td><span class='state progress'>In Progress</span></td>
+  <td>03/09/2026 15:50</td>
+  <td>
+    <div class='project-progress'>
+      <div class='project-progress__track'>
+        <div class='project-progress__fill' style='width: 69%'></div>
+      </div>
+      <span>69% (47/68)</span>
+    </div>
+  </td>
+  <td>
+    <div class='project-progress'>
+      <div class='project-progress__track'>
+        <div class='project-progress__fill effort' style='width: 97%'></div>
+      </div>
+      <span>97% (181.8h/188.0h)</span>
+    </div>
+  </td>
+</tr>
+          </tbody>
+        </table>
+      </section>
+    </section>
+
+    <section class='table-card main-only' style='margin-top:14px; border: 0; background: transparent;'>
       <div class='hero-grid' style='margin-top:0'>
         <section class='status-column focus'>
   <div class='status-column__header'>
@@ -602,7 +677,7 @@
       </div>
     </section>
 
-    <section class='table-card' id='tabela'>
+    <section class='table-card main-only' id='tabela'>
       <table>
         <thead>
           <tr>
@@ -1492,7 +1567,7 @@
         </tbody>
       </table>
     </section>
-    <div class='note' data-i18n='note_text'>Hours spent = sum only of Done/Closed items by Completed Work. Completed Work stays empty for the other statuses, and the Effort column remains available as an estimate.</div>
+    <div class='note main-only' data-i18n='note_text'>Hours spent = sum only of Done/Closed items by Completed Work. Completed Work stays empty for the other statuses, and the Effort column remains available as an estimate.</div>
   </div>
   <script>
     const html = document.documentElement.outerHTML;
@@ -1503,8 +1578,21 @@
         subtitle: (data) => 'Tasks <strong>criadas a partir de 01/08/2026</strong> e <strong>atribuidas a Ingrid Vieira Alves</strong> - cliente resolvido pela PBI/Task - ultimo update em <strong>' + data.changedDate + '</strong>',
         download_html: 'Baixar HTML',
         refresh_now: 'Atualizar agora',
+        view_projects: 'Ver projetos em andamento',
+        view_hours: 'Voltar para painel principal',
         open_table: 'Abrir tabela',
         view_focus: 'Ver foco atual',
+        projects_page_title: 'Visao de Backlog em Andamento - Amazon',
+        projects_subtitle: 'Resumo dos EPICs em andamento com progresso por itens e esforco.',
+        projects_kpi_total: 'Projetos em andamento',
+        projects_kpi_items: 'Progresso por itens',
+        projects_kpi_effort: 'Progresso por esforco',
+        projects_table_project: 'Projeto (Epic)',
+        projects_table_state: 'Estado',
+        projects_table_start: 'Start Date',
+        projects_table_items_progress: 'Progresso por itens',
+        projects_table_effort_progress: 'Progresso por esforco',
+        projects_empty: 'Sem projetos em andamento para exibir.',
         focus_panel_title: 'O que ela esta trabalhando agora',
         rapid_reading: 'Leitura rapida',
         focus_by_status: 'Foco por status',
@@ -1569,8 +1657,21 @@
         subtitle: (data) => 'Tasks <strong>created from 01/08/2026</strong> and <strong>assigned to Ingrid Vieira Alves</strong> - client resolved by PBI/Task - last update at <strong>' + data.changedDate + '</strong>',
         download_html: 'Download HTML',
         refresh_now: 'Refresh now',
+        view_projects: 'View projects in progress',
+        view_hours: 'Back to main dashboard',
         open_table: 'Open table',
         view_focus: 'View current focus',
+        projects_page_title: 'In-progress backlog view - Amazon',
+        projects_subtitle: 'Summary of in-progress EPICs with item and effort progress.',
+        projects_kpi_total: 'Projects in progress',
+        projects_kpi_items: 'Progress by items',
+        projects_kpi_effort: 'Progress by effort',
+        projects_table_project: 'Project (Epic)',
+        projects_table_state: 'State',
+        projects_table_start: 'Start Date',
+        projects_table_items_progress: 'Progress by items',
+        projects_table_effort_progress: 'Progress by effort',
+        projects_empty: 'No projects in progress to display.',
         focus_panel_title: 'What she is working on now',
         rapid_reading: 'Quick view',
         focus_by_status: 'Focus by status',
@@ -1632,6 +1733,25 @@
       }
     };
 
+    const mainElements = Array.from(document.querySelectorAll('.main-only'));
+    const projectsScreen = document.getElementById('projects-screen');
+    const switchScreenButton = document.getElementById('switch-screen-button');
+    let showingProjectsScreen = false;
+
+    function updateScreenState() {
+      mainElements.forEach((element) => {
+        element.classList.toggle('is-hidden', showingProjectsScreen);
+      });
+      if (projectsScreen) {
+        projectsScreen.classList.toggle('is-hidden', !showingProjectsScreen);
+      }
+      const lang = localStorage.getItem('dashboard-language') || 'pt';
+      const dict = translations[lang] || translations.pt;
+      if (switchScreenButton) {
+        switchScreenButton.textContent = showingProjectsScreen ? dict.view_hours : dict.view_projects;
+      }
+    }
+
     function applyLanguage(lang) {
       const dict = translations[lang] || translations.pt;
       document.documentElement.lang = lang === 'en' ? 'en-US' : 'pt-BR';
@@ -1652,6 +1772,9 @@
 
       document.getElementById('refresh-button').textContent = dict.refresh_now;
       document.getElementById('download-link').textContent = dict.download_html;
+      if (switchScreenButton) {
+        switchScreenButton.textContent = showingProjectsScreen ? dict.view_hours : dict.view_projects;
+      }
     }
     window.applyLanguage = applyLanguage;
 
@@ -1670,6 +1793,12 @@
       anchor.remove();
       setTimeout(() => URL.revokeObjectURL(url), 1000);
     });
+    if (switchScreenButton) {
+      switchScreenButton.addEventListener('click', () => {
+        showingProjectsScreen = !showingProjectsScreen;
+        updateScreenState();
+      });
+    }
     document.getElementById('refresh-button').addEventListener('click', async () => {
       const button = document.getElementById('refresh-button');
       const lang = localStorage.getItem('dashboard-language') || 'pt';
@@ -1694,6 +1823,7 @@
           : 'Nao foi possivel atualizar agora. Reabra o dashboard ou mantenha o servidor de refresh local em execucao.');
       }
     });
+    updateScreenState();
     applyLanguage('pt');
   </script>
 </body>
