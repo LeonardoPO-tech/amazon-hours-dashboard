@@ -526,8 +526,8 @@
         </div>
         <div class='project-kpi'>
           <div class='project-kpi__label' data-i18n='projects_kpi_items'>Progresso por itens</div>
-          <div class='project-kpi__value'>59%</div>
-          <div class='project-kpi__sub'>77 de 130 work items</div>
+          <div class='project-kpi__value'>60%</div>
+          <div class='project-kpi__sub'>78 de 130 work items</div>
         </div>
         <div class='project-kpi goal'>
           <div class='project-kpi__label' data-i18n='projects_kpi_effort'>Progresso por esforco</div>
@@ -554,17 +554,17 @@
   <td>
     <div class='project-progress'>
       <div class='project-progress__track'>
-        <div class='project-progress__fill' style='width: 25%'></div>
+        <div class='project-progress__fill' style='width: 50%'></div>
       </div>
-      <span>25% (1/4)</span>
+      <span>50% (2/4)</span>
     </div>
   </td>
   <td>
     <div class='project-progress'>
       <div class='project-progress__track'>
-        <div class='project-progress__fill effort' style='width: 25%'></div>
+        <div class='project-progress__fill effort' style='width: 50%'></div>
       </div>
-      <span>25% (0.0h/0.0h)</span>
+      <span>50% (0.0h/0.0h)</span>
     </div>
   </td>
 </tr>
@@ -594,17 +594,17 @@
   <td>
     <div class='project-progress'>
       <div class='project-progress__track'>
-        <div class='project-progress__fill' style='width: 33%'></div>
+        <div class='project-progress__fill' style='width: 67%'></div>
       </div>
-      <span>33% (1/3)</span>
+      <span>67% (2/3)</span>
     </div>
   </td>
   <td>
     <div class='project-progress'>
       <div class='project-progress__track'>
-        <div class='project-progress__fill effort' style='width: 25%'></div>
+        <div class='project-progress__fill effort' style='width: 33%'></div>
       </div>
-      <span>25% (3.0h/12.0h)</span>
+      <span>33% (4.0h/12.0h)</span>
     </div>
   </td>
   <td>-</td>
@@ -1227,7 +1227,7 @@
           <div class='dev-hours-title' data-i18n='dev_hours_title'>Horas por desenvolvedor (Amazon)</div>
           <div class='dev-hours-sub' data-i18n='dev_hours_subtitle'>Inclui registros de 03/09/2026 ate hoje; itens de RUN aparecem como ATS.</div>
         </div>
-        <div class='dev-hours-total'>424.0 h</div>
+        <div class='dev-hours-total'>425.0 h</div>
       </div>
       <table>
         <thead>
@@ -1278,8 +1278,8 @@
 <tr>
   <td><strong>Davidson Gabriel</strong></td>
   <td>GROW</td>
-  <td class='hours'>13.5</td>
-  <td>4</td>
+  <td class='hours'>14.5</td>
+  <td>5</td>
 </tr>
 <tr>
   <td><strong>Leonardo Abra&#227;o Ribeiro</strong></td>
@@ -2369,6 +2369,15 @@
   <script>
     const html = document.documentElement.outerHTML;
     const isLocalDashboard = window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost';
+    const publishedBuildVersion = '20261022141930';
+    const isGithubPagesDashboard = window.location.hostname === 'leonardopo-tech.github.io';
+    if (isGithubPagesDashboard) {
+      const forcedUrl = new URL(window.location.href);
+      if (!forcedUrl.searchParams.has('v')) {
+        forcedUrl.searchParams.set('v', publishedBuildVersion);
+        window.location.replace(forcedUrl.toString());
+      }
+    }
     const translations = {
       pt: {
         page_title: 'Painel Amazon',
