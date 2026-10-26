@@ -120,7 +120,6 @@
     .kpi-main .label { text-transform: uppercase; letter-spacing: .08em; color: #8ea3c5; font-size: 11px; margin-bottom: 10px; text-align: center; }
     .kpi-main .value { font-size: 34px; font-weight: 800; color: #ffb020; text-align: center; line-height: 1.05; }
     .kpi-main .sub { margin-top: 8px; color: #9fb2d1; font-size: 12px; text-align: center; }
-    .kpi-main .demo-note { margin-top: 6px; color: #ffb020; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; text-align: center; }
     .kpi-side { padding: 18px; min-height: 138px; display: flex; flex-direction: column; justify-content: center; }
     .kpi-side .label { text-transform: uppercase; letter-spacing: .08em; color: #8ea3c5; font-size: 11px; margin-bottom: 10px; text-align: center; }
     .kpi-side .value { font-size: 30px; font-weight: 800; color: #f4f7fb; text-align: center; line-height: 1.05; }
@@ -415,9 +414,8 @@
               <div class='kpi-top'>
                 <div class='kpi-main'>
                   <div class='label' data-i18n='hours_spent_label'>Hours spent so far</div>
-                  <div class='value' id='hours-spent-value'>450.0</div>
+                  <div class='value' id='hours-spent-value'>296.3</div>
                   <div class='sub' data-i18n='hours_spent_sub'>Updated with the latest Azure DevOps extract</div>
-                  <div class='demo-note is-hidden' id='hours-demo-note' data-i18n='demo_mode_note'>Demonstracao (nao oficial)</div>
                 </div>
                 <div class='kpi-side'>
                   <div class='label' data-i18n='october_goal_label'>October goal</div>
@@ -446,7 +444,7 @@
               <div class='worked-hours-panel worked-hours-panel--secondary'>
                 <div class='worked-hours-panel__label' data-i18n='worked_hours_week_label'>Horas trabalhadas na semana</div>
                 <div class='worked-hours-panel__value'>0.0</div>
-                <div class='worked-hours-panel__total'><span data-i18n='worked_hours_total_label'>Total ate o momento</span>: <span id='hours-total-value'>450.0</span> h</div>
+                <div class='worked-hours-panel__total'><span data-i18n='worked_hours_total_label'>Total ate o momento</span>: <span id='hours-total-value'>296.3</span> h</div>
                 <div class='worked-hours-panel__sub' data-i18n='worked_hours_week_sub'>Segunda a sexta, acumulado da semana atual</div>
               </div>
               <div class='worked-hours-panel worked-hours-panel--secondary worked-hours-panel--goal'>
@@ -2263,7 +2261,7 @@
   <script>
     const html = document.documentElement.outerHTML;
     const isLocalDashboard = window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost';
-    const publishedBuildVersion = '20261026091247';
+    const publishedBuildVersion = '20261026091411';
     const isGithubPagesDashboard = window.location.hostname === 'leonardopo-tech.github.io';
     if (isGithubPagesDashboard) {
       const forcedUrl = new URL(window.location.href);
@@ -2273,37 +2271,6 @@
       }
     }
 
-    function applyDemoModeIfRequested() {
-      const url = new URL(window.location.href);
-      if (url.searchParams.get('demo') !== '1') {
-        return;
-      }
-
-      const demoHoursParam = url.searchParams.get('demo_hours');
-      if (!demoHoursParam) {
-        return;
-      }
-
-      const parsed = Number(String(demoHoursParam).replace(',', '.'));
-      if (!Number.isFinite(parsed) || parsed < 0) {
-        return;
-      }
-
-      const formatted = parsed.toFixed(1);
-      const spentValue = document.getElementById('hours-spent-value');
-      const totalValue = document.getElementById('hours-total-value');
-      const demoNote = document.getElementById('hours-demo-note');
-
-      if (spentValue) {
-        spentValue.textContent = formatted;
-      }
-      if (totalValue) {
-        totalValue.textContent = formatted;
-      }
-      if (demoNote) {
-        demoNote.classList.remove('is-hidden');
-      }
-    }
     const translations = {
       pt: {
         page_title: 'Painel Amazon',
@@ -2345,7 +2312,6 @@
         focus_by_status: 'Foco por status',
         hours_spent_label: 'Horas gastas ate o momento',
         hours_spent_sub: 'Atualizado com a ultima extracao do Azure DevOps',
-        demo_mode_note: 'Demonstracao (nao oficial)',
         october_goal_label: 'Meta outubro',
         monthly_reference: 'Referencia mensal de 157,5 horas',
         predominant_client: 'Cliente predominante',
@@ -2440,7 +2406,6 @@
         focus_by_status: 'Focus by status',
         hours_spent_label: 'Hours spent so far',
         hours_spent_sub: 'Updated with the latest Azure DevOps extract',
-        demo_mode_note: 'Demonstration (unofficial)',
         october_goal_label: 'October goal',
         monthly_reference: 'Monthly reference of 157.5 hours',
         predominant_client: 'Predominant client',
@@ -2602,7 +2567,6 @@
     });
     updateScreenState();
     applyLanguage('pt');
-    applyDemoModeIfRequested();
   </script>
 </body>
 </html>
